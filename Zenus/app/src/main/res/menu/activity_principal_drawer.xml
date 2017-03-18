@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_musico"
+            android:icon="@drawable/ic_musico"
+            android:title="Perfil" />
+        <item
+            android:id="@+id/nav_ensaio"
+            android:icon="@drawable/ic_repertorio"
+            android:title="Ensaio" />
+        <item
+            android:id="@+id/nav_midia"
+            android:icon="@drawable/ic_midia"
+            android:title="Bandas" />
+        <item
+            android:id="@+id/nav_estudio"
+            android:icon="@drawable/ic_estudio"
+            android:title="Estúdio" />
+    </group>
+
+    <item android:title="Comunicação">
+        <menu>
+            <item
+                android:id="@+id/nav_compartilha"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Compartilhar Sugestão" />
+            <item
+                android:id="@+id/nav_mensagem"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Enviar mensagem ao administrador" />
+        </menu>
+    </item>
+
+</menu>

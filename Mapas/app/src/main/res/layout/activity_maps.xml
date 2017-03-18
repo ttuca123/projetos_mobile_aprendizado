@@ -1,0 +1,31 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="516dp"
+        xmlns:android="http://schemas.android.com/apk/res/android" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minha Localização"
+            android:id="@+id/btnLocaliza"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="290dp"
+            tools:context="br.com.android.mapas.MapsActivity"
+            android:layout_below="@+id/btnLocaliza"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+
+    </LinearLayout>
