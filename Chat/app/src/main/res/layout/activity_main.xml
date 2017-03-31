@@ -22,7 +22,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/txtLoginEmail"
             android:layout_marginTop="100dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -56,17 +56,20 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="58dp"
-            android:text="Acesso ao Chat" />
+            android:text="Acesso ao Chat"
+            android:textAlignment="center"
+            android:textStyle="normal|bold|italic"
+            android:textSize="24sp" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:layout_below="@+id/editText"
+            android:layout_below="@+id/txtLoginEmail"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:id="@+id/editText2"
+            android:id="@+id/txtLoginSenha"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:hint="Sua senha" />
@@ -75,8 +78,8 @@
             android:text="ENTRAR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
-            android:layout_below="@+id/editText2"
+            android:id="@+id/btnLogar"
+            android:layout_below="@+id/txtLoginSenha"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="46dp"
