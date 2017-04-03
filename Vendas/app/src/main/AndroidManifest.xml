@@ -2,12 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.android.vendas">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -15,7 +22,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NovaVendaActivity"></activity>
+        <activity android:name=".NovaVendaActivity" />
+        <activity android:name=".ListarVendas" />
+        <activity
+            android:name=".MapShowActivity"
+            android:label="@string/title_activity_map_show"></activity>
+        <service android:name="br.com.android.vendas.ExportarVendasService">
+            <intent-filter>
+                <action android:name="INICIAR_REPLICACAO" />
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+
+        </service>
     </application>
 
 </manifest>
