@@ -3,6 +3,8 @@
     package="br.com.android.vendas">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -27,12 +29,20 @@
         <activity
             android:name=".MapShowActivity"
             android:label="@string/title_activity_map_show"></activity>
+        <receiver android:name=".ExemploBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>
+                <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+
+        </receiver>
+
         <service android:name="br.com.android.vendas.ExportarVendasService">
             <intent-filter>
                 <action android:name="INICIAR_REPLICACAO" />
                 <category android:name="android.intent.category.DEFAULT"></category>
             </intent-filter>
-
         </service>
     </application>
 
