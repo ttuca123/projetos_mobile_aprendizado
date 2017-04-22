@@ -1,10 +1,15 @@
 package br.com.android.gps;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -156,6 +161,39 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        // Verifica se o GPS está ativo
+        boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        // Caso não esteja ativo abre um novo diálogo com as configurações para
+        // realizar se ativamento
+        if (!enabled) {
+
+            final android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(MainActivity.this);
+            alertDialog.setTitle("GPS está desativado");
+            alertDialog.setMessage("Deseja ativar o gps?");
+            alertDialog.setCancelable(true);
+            alertDialog.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                }
+            });
+            alertDialog.setNegativeButton("NÃO", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            alertDialog.show();
+
+        }
+
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleAPIClient);
 
         if (location != null) {
