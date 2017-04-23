@@ -1,26 +1,28 @@
 package br.com.zenus.prazercity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TabHost;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-public class MainActivity extends FragmentActivity implements
+import br.com.zenus.fragments.Local;
+import br.com.zenus.fragments.Mapa;
+
+public class MainActivity extends AppCompatActivity implements
         TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
     private TabHost mTabHost;
@@ -63,7 +65,21 @@ public class MainActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Infla o layout
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+//        FloatingActionButton btnAdd = (FloatingActionButton) findViewById(R.id.btnAdd);
+//        btnAdd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent it = new Intent(MainActivity.this, CadastroActivity.class);
+//                startActivity(it);
+//            }
+//        });
+
+
         // Inicializa o TabHost
         this.initialiseTabHost(savedInstanceState);
         if (savedInstanceState != null) {
@@ -74,6 +90,29 @@ public class MainActivity extends FragmentActivity implements
         this.intialiseViewPager();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     protected void onSaveInstanceState(Bundle outState) {
         // salva a Tab selecionada
         outState.putString("tab", mTabHost.getCurrentTabTag());
@@ -83,9 +122,8 @@ public class MainActivity extends FragmentActivity implements
     private void intialiseViewPager() {
 
         List<Fragment> fragments = new Vector<Fragment>();
-        fragments.add(Fragment.instantiate(this, TabFragmentA.class.getName()));
-        fragments.add(Fragment.instantiate(this, TabFragmentB.class.getName()));
-        fragments.add(Fragment.instantiate(this, TabFragmentC.class.getName()));
+        fragments.add(Fragment.instantiate(this, Local.class.getName()));
+        fragments.add(Fragment.instantiate(this, Mapa.class.getName()));
         this.mPagerAdapter = new ViewPagerAdapter(
                 super.getSupportFragmentManager(), fragments);
         this.mViewPager = (ViewPager) super.findViewById(R.id.viewpager);
@@ -98,17 +136,14 @@ public class MainActivity extends FragmentActivity implements
         mTabHost.setup();
         TabInfo tabInfo = null;
         MainActivity.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab1").setIndicator("A"),
-                (tabInfo = new TabInfo("Tab1", TabFragmentA.class, args)));
+                this.mTabHost.newTabSpec("Tab1").setIndicator("Locais"),
+                (tabInfo = new TabInfo("Tab1", Local.class, args)));
         this.mapTabInfo.put(tabInfo.tag, tabInfo);
         MainActivity.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab2").setIndicator("B"),
-                (tabInfo = new TabInfo("Tab2", TabFragmentB.class, args)));
+                this.mTabHost.newTabSpec("Tab2").setIndicator("Mapa"),
+                (tabInfo = new TabInfo("Tab2", Mapa.class, args)));
         this.mapTabInfo.put(tabInfo.tag, tabInfo);
-        MainActivity.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab3").setIndicator("C"),
-                (tabInfo = new TabInfo("Tab3", TabFragmentC.class, args)));
-        this.mapTabInfo.put(tabInfo.tag, tabInfo);
+
         mTabHost.setOnTabChangedListener(this);
     }
 
