@@ -1,6 +1,7 @@
 package br.com.android.vendas;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -34,6 +35,9 @@ public class NovaVendaActivity extends AppCompatActivity implements LocationList
     private double lo;
     private double la;
 
+    LocationManager lm = null;
+
+    ProgressDialog pgd;
 
 
     @Override
@@ -85,10 +89,21 @@ public class NovaVendaActivity extends AppCompatActivity implements LocationList
                     e.printStackTrace();
                 }
 
-                if(location!=null) {
-                   la = location.getLatitude();
-                   lo = location.getLongitude();
-               }
+                lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+                String provide = "gps";
+
+                Long time = 3000L;
+
+
+                lm.requestLocationUpdates(provide, time, (float) 0.0, NovaVendaActivity.this);
+
+                pgd = ProgressDialog.show(NovaVendaActivity.this, "Aguarde", "buscando localização", true, false, null);
+
+                if (location != null) {
+                    la = location.getLatitude();
+                    lo = location.getLongitude();
+                }
 
 
                 SQLiteDatabase db = openOrCreateDatabase("vendas.db", Context.MODE_PRIVATE, null);
@@ -102,16 +117,14 @@ public class NovaVendaActivity extends AppCompatActivity implements LocationList
                 ctv.put("la", la);
                 ctv.put("lo", lo);
 
-               if(db.insert("vendas", "_id", ctv)>0){
+                if (db.insert("vendas", "_id", ctv) > 0) {
 
-                   Toast.makeText(getBaseContext(), "Venda Salva com sucesso", Toast.LENGTH_SHORT).show();
-               }else{
-                   Toast.makeText(getBaseContext(), "Erro ao Cadastrar venda", Toast.LENGTH_SHORT).show();
-               }
+                    Toast.makeText(getBaseContext(), "Venda Salva com sucesso", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getBaseContext(), "Erro ao Cadastrar venda", Toast.LENGTH_SHORT).show();
+                }
 
                 db.close();
-
-
 
 
             }
@@ -131,8 +144,22 @@ public class NovaVendaActivity extends AppCompatActivity implements LocationList
     @Override
     public void onLocationChanged(Location location) {
 
-        la= location.getLatitude();
+        pgd.dismiss();
+
+        la = location.getLatitude();
         lo = location.getLongitude();
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        lm.removeUpdates(this);
 
     }
 

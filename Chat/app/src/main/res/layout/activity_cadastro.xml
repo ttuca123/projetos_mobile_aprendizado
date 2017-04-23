@@ -23,8 +23,16 @@
     </android.support.design.widget.AppBarLayout>
 
 
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/no_photo"
+            android:id="@+id/imgFoto"
+            android:layout_above="@+id/btnCadastrar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-        <EditText
+    <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -37,7 +45,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
-        <EditText
+    <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
@@ -75,15 +83,6 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:hint="Confirme sua senha" />
-
-    <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/no_photo"
-            android:id="@+id/imgFoto"
-            android:layout_above="@+id/btnCadastrar"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
     <Button
         android:text="Cadastrar"
