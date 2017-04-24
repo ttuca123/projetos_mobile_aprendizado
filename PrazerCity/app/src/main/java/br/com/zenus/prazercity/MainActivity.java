@@ -1,17 +1,12 @@
 package br.com.zenus.prazercity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
 
@@ -19,8 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import br.com.zenus.fragments.Local;
-import br.com.zenus.fragments.Mapa;
+import br.com.zenus.fragments.LocalFrag;
+import br.com.zenus.fragments.MapaFrag;
 
 public class MainActivity extends AppCompatActivity implements
         TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
@@ -90,27 +85,7 @@ public class MainActivity extends AppCompatActivity implements
         this.intialiseViewPager();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 
     protected void onSaveInstanceState(Bundle outState) {
@@ -122,8 +97,8 @@ public class MainActivity extends AppCompatActivity implements
     private void intialiseViewPager() {
 
         List<Fragment> fragments = new Vector<Fragment>();
-        fragments.add(Fragment.instantiate(this, Local.class.getName()));
-        fragments.add(Fragment.instantiate(this, Mapa.class.getName()));
+        fragments.add(Fragment.instantiate(this, LocalFrag.class.getName()));
+        fragments.add(Fragment.instantiate(this, MapaFrag.class.getName()));
         this.mPagerAdapter = new ViewPagerAdapter(
                 super.getSupportFragmentManager(), fragments);
         this.mViewPager = (ViewPager) super.findViewById(R.id.viewpager);
@@ -137,11 +112,11 @@ public class MainActivity extends AppCompatActivity implements
         TabInfo tabInfo = null;
         MainActivity.AddTab(this, this.mTabHost,
                 this.mTabHost.newTabSpec("Tab1").setIndicator("Locais"),
-                (tabInfo = new TabInfo("Tab1", Local.class, args)));
+                (tabInfo = new TabInfo("Tab1", LocalFrag.class, args)));
         this.mapTabInfo.put(tabInfo.tag, tabInfo);
         MainActivity.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab2").setIndicator("Mapa"),
-                (tabInfo = new TabInfo("Tab2", Mapa.class, args)));
+                this.mTabHost.newTabSpec("Tab2").setIndicator("MapaFrag"),
+                (tabInfo = new TabInfo("Tab2", MapaFrag.class, args)));
         this.mapTabInfo.put(tabInfo.tag, tabInfo);
 
         mTabHost.setOnTabChangedListener(this);
