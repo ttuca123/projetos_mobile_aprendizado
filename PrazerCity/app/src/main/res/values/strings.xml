@@ -3,4 +3,5 @@
     <string name="action_settings">Configurações</string>
     <string name="title_activity_main">Titulo</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAfopzwftd9EOCrOft9xYQl-8ItWQ6XU1A</string>
+    <string name="title_activity_cadastro">CadastroActivity</string>
 </resources>

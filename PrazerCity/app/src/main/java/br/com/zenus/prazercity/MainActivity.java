@@ -1,19 +1,24 @@
 package br.com.zenus.prazercity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TabHost;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import br.com.zenus.cadastro.CadastroActivity;
 import br.com.zenus.fragments.LocalFrag;
 import br.com.zenus.fragments.MapaFrag;
 
@@ -65,14 +70,14 @@ public class MainActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton btnAdd = (FloatingActionButton) findViewById(R.id.btnAdd);
-//        btnAdd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent it = new Intent(MainActivity.this, CadastroActivity.class);
-//                startActivity(it);
-//            }
-//        });
+        FloatingActionButton btnAdd = (FloatingActionButton) findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(MainActivity.this, CadastroActivity.class);
+                startActivity(it);
+            }
+        });
 
 
         // Inicializa o TabHost
@@ -115,12 +120,15 @@ public class MainActivity extends AppCompatActivity implements
                 (tabInfo = new TabInfo("Tab1", LocalFrag.class, args)));
         this.mapTabInfo.put(tabInfo.tag, tabInfo);
         MainActivity.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab2").setIndicator("MapaFrag"),
+                this.mTabHost.newTabSpec("Tab2").setIndicator("Mapa"),
                 (tabInfo = new TabInfo("Tab2", MapaFrag.class, args)));
         this.mapTabInfo.put(tabInfo.tag, tabInfo);
 
         mTabHost.setOnTabChangedListener(this);
+
+
     }
+
 
     private static void AddTab(MainActivity activity, TabHost tabHost,
                                TabHost.TabSpec tabSpec, TabInfo tabInfo) {

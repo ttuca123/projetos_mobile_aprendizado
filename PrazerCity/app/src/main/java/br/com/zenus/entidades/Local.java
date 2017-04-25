@@ -21,7 +21,7 @@ public class Local {
     private String nome;
 
     @Property(nameInDb = "fone")
-    private Long telefone;
+    private String telefone;
 
     @Property(nameInDb = "latitude")
     private Double latitude;
@@ -29,8 +29,8 @@ public class Local {
     @Property(nameInDb = "longitude")
     private Double longitude;
 
-    @Generated(hash = 102496982)
-    public Local(Long seqLocal, String nome, Long telefone, Double latitude,
+    @Generated(hash = 1722454556)
+    public Local(Long seqLocal, String nome, String telefone, Double latitude,
             Double longitude) {
         this.seqLocal = seqLocal;
         this.nome = nome;
@@ -59,11 +59,11 @@ public class Local {
         this.nome = nome;
     }
 
-    public Long getTelefone() {
+    public String getTelefone() {
         return this.telefone;
     }
 
-    public void setTelefone(Long telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
@@ -83,5 +83,6 @@ public class Local {
         this.longitude = longitude;
     }
 
+   
 
 }
