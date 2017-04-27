@@ -29,6 +29,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="0" />
 
+
+
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="373dp"

@@ -1,37 +1,210 @@
 package br.com.zenus.fragments;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
-
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.common.ConnectionResult;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import com.google.android.gms.location.LocationRequest;
+
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.PermissionUtils;
 
-public class MapaFrag extends Fragment  {
+import static android.content.Context.LOCATION_SERVICE;
+
+public class MapaFrag extends Fragment {
+    protected GoogleMap gMap;
+    protected MapView gMapView;
+    private CameraUpdate update;
+
+    protected SupportMapFragment mapFragment;
 
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = (RelativeLayout) inflater.inflate(R.layout.tab_layout_mapa, container, false);
+
+        try {
+
+            FragmentManager fm = getChildFragmentManager();
+            mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.mapView);
+
+            gMap = mapFragment.getMap();
+
+            LocationManager service = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
+
+            // Verifica se o GPS está ativo
+            boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+            // Caso não esteja ativo abre um novo diálogo com as configurações para
+            // realizar se ativamento
+            if (!enabled) {
+
+                final android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
+                alertDialog.setTitle("GPS está desativado");
+                alertDialog.setMessage("Deseja ativar o gps?");
+                alertDialog.setCancelable(true);
+                alertDialog.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(intent);
+                    }
+                });
+                alertDialog.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alertDialog.show();
+
+            }
+            solicitarPermissao();
+
+            Location location = getLastKnownLocation();
+
+            LatLng minhaLocalizacao = new LatLng(location.getLatitude(), location.getLongitude());
+//
+            setMapLocation(location);
+//            gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//            gMap.setMyLocationEnabled(true);
+//
+//            update = CameraUpdateFactory.newLatLngZoom(minhaLocalizacao, 12);
+//            gMap.animateCamera(update);
+//            gMap.moveCamera(update);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+        return view;
 
-		if (container == null) {
-			return null;
-		}
 
-		// Inflamos o layout tab_layout_local
-		return (RelativeLayout) inflater.inflate(R.layout.tab_layout_mapa, container, false);
-	}
+    }
 
+    private void solicitarPermissao() {
+
+        String[] permissoes = new String[]{
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+
+        };
+        PermissionUtils.validate(getActivity(), 0, permissoes);
+    }
+
+    private void setMapLocation(Location l) {
+
+        if (gMap != null && l != null) {
+            LatLng latLng = new LatLng(l.getLatitude(), l.getLongitude());
+
+            try {
+                MapsInitializer.initialize(getActivity());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+
+            gMap.setMyLocationEnabled(true);
+            gMap.animateCamera(update);
+
+            List<LatLng> latLongitudes = new ArrayList<LatLng>();
+
+            latLongitudes.add(new LatLng(-3.726521, -38.520385));
+            latLongitudes.add(new LatLng(-3.733459, -38.527284));
+
+
+            for(LatLng latLong: latLongitudes){
+
+                CircleOptions circle = new CircleOptions().center(latLong).radius(100);
+                circle.fillColor(Color.RED);
+                circle.radius(25);
+                gMap.clear();
+                gMap.addCircle(circle);
+            }
+            gMap.setBuildingsEnabled(true);
+            gMap.getUiSettings().setAllGesturesEnabled(true);
+            gMap.getUiSettings().setMapToolbarEnabled(true);
+
+        }
+    }
+
+
+    private Location getLastKnownLocation() {
+        String location_context = LOCATION_SERVICE;
+        LocationManager mLocationManager = (LocationManager) getContext().getSystemService(location_context);
+
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return null;
+            }
+            Location l = mLocationManager.getLastKnownLocation(provider);
+
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null
+                    || l.getAccuracy() < bestLocation.getAccuracy()) {
+
+                bestLocation = l;
+            }
+        }
+        if (bestLocation == null) {
+            return null;
+        }
+        return bestLocation;
+    }
 
 
 }
