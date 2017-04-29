@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PrazerCity</string>
     <string name="developBy">Desenvolvido por Artur Cavalcante - ttuca123@gmail.com</string>
+    <string name="about">Aplicativo responsável por mostrar os locais de Prazer da cidade</string>
     <string name="action_about">Sobre</string>
     <string name="action_sincronize">Atualizar</string>
     <string name="title_activity_main">Titulo</string>
