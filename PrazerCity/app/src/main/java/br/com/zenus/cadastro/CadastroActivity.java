@@ -9,6 +9,7 @@ import android.view.View;
 
 import br.com.zenus.prazercity.R;
 
+
 public class CadastroActivity extends AppCompatActivity {
 
     @Override

@@ -1,28 +1,22 @@
 package br.com.zenus.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
-
-import org.greenrobot.greendao.database.Database;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.zenus.adapter.MyLocalViewAdapter;
-import br.com.zenus.entidades.DaoMaster;
-import br.com.zenus.entidades.DaoMaster.DevOpenHelper;
 import br.com.zenus.entidades.Local;
 import br.com.zenus.entidades.LocalDao;
-import br.com.zenus.prazercity.R;
 
+
+import br.com.zenus.prazercity.R;
 import br.com.zenus.util.App;
 import br.com.zenus.util.BaseFragment;
 import br.com.zenus.util.EntityDao;

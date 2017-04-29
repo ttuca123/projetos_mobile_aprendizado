@@ -1,4 +1,4 @@
-package br.com.zenus.prazercity;
+package br.com.zenus.main;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

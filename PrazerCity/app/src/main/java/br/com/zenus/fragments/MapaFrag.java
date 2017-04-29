@@ -5,43 +5,31 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.google.android.gms.common.ConnectionResult;
-
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import com.google.android.gms.location.LocationRequest;
-
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.PermissionUtils;
@@ -54,14 +42,16 @@ public class MapaFrag extends Fragment {
     private CameraUpdate update;
 
     protected SupportMapFragment mapFragment;
-
+    private Button btnExibirLocais;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         View view = (RelativeLayout) inflater.inflate(R.layout.tab_layout_mapa, container, false);
 
+        btnExibirLocais = (Button) view.findViewById(R.id.btnMostrarLocais);
         try {
 
             FragmentManager fm = getChildFragmentManager();
@@ -72,55 +62,54 @@ public class MapaFrag extends Fragment {
             LocationManager service = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
 
             // Verifica se o GPS está ativo
-            boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            verificarGPSAtivo(service);
 
-            // Caso não esteja ativo abre um novo diálogo com as configurações para
-            // realizar se ativamento
-            if (!enabled) {
-
-                final android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
-                alertDialog.setTitle("GPS está desativado");
-                alertDialog.setMessage("Deseja ativar o gps?");
-                alertDialog.setCancelable(true);
-                alertDialog.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(intent);
-                    }
-                });
-                alertDialog.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                alertDialog.show();
-
-            }
             solicitarPermissao();
 
             Location location = getLastKnownLocation();
 
-            LatLng minhaLocalizacao = new LatLng(location.getLatitude(), location.getLongitude());
-//
-            setMapLocation(location);
-//            gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-//            gMap.setMyLocationEnabled(true);
-//
-//            update = CameraUpdateFactory.newLatLngZoom(minhaLocalizacao, 12);
-//            gMap.animateCamera(update);
-//            gMap.moveCamera(update);
+            if(location!=null) {
+                LatLng minhaLocalizacao = new LatLng(location.getLatitude(), location.getLongitude());
+
+                mapearLocais(location);
+                btnExibirLocais.setVisibility(View.GONE);
+            }else{
+
+                btnExibirLocais.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        LocationManager service = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
+
+                        // Verifica se o GPS está ativo
+                        verificarGPSAtivo(service);
+
+                        Location location = getLastKnownLocation();
+
+                        if(location!=null) {
+                            LatLng minhaLocalizacao = new LatLng(location.getLatitude(), location.getLongitude());
+
+                            mapearLocais(location);
+
+                            btnExibirLocais.setVisibility(View.GONE);
+
+
+                        }else{
+                            btnExibirLocais.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
         return view;
-
-
     }
+
+
 
     private void solicitarPermissao() {
 
@@ -134,36 +123,45 @@ public class MapaFrag extends Fragment {
         PermissionUtils.validate(getActivity(), 0, permissoes);
     }
 
-    private void setMapLocation(Location l) {
+    private void mapearLocais(Location l) {
 
-        if (gMap != null && l != null) {
-            LatLng latLng = new LatLng(l.getLatitude(), l.getLongitude());
-
-            try {
-                MapsInitializer.initialize(getActivity());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-
+        if (gMap != null ) {
             gMap.setMyLocationEnabled(true);
-            gMap.animateCamera(update);
+
+            LatLng latLng = null;
+            if( l != null) {
+                 latLng = new LatLng(l.getLatitude(), l.getLongitude());
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 12);
+                try {
+                    MapsInitializer.initialize(getActivity());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+                gMap.animateCamera(update);
+                gMap.moveCamera(update);
+            }
 
             List<LatLng> latLongitudes = new ArrayList<LatLng>();
 
             latLongitudes.add(new LatLng(-3.726521, -38.520385));
             latLongitudes.add(new LatLng(-3.733459, -38.527284));
 
+            gMap.clear();
 
             for(LatLng latLong: latLongitudes){
 
-                CircleOptions circle = new CircleOptions().center(latLong).radius(100);
-                circle.fillColor(Color.RED);
-                circle.radius(25);
-                gMap.clear();
-                gMap.addCircle(circle);
+
+                gMap.addMarker(new MarkerOptions().position(latLong).
+                        title("Diversão").snippet("Diversão com ótima qualidade")
+                       .draggable(true) );
             }
+
+            gMap.getUiSettings().setZoomControlsEnabled(true);
+            gMap.getUiSettings().setCompassEnabled(true);
+            gMap.getUiSettings().setIndoorLevelPickerEnabled(true);
+            gMap.getUiSettings().setMapToolbarEnabled(true);
             gMap.setBuildingsEnabled(true);
             gMap.getUiSettings().setAllGesturesEnabled(true);
             gMap.getUiSettings().setMapToolbarEnabled(true);
@@ -204,6 +202,37 @@ public class MapaFrag extends Fragment {
             return null;
         }
         return bestLocation;
+    }
+
+    private void verificarGPSAtivo(LocationManager service){
+
+        boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        // Caso não esteja ativo abre um novo diálogo com as configurações para
+        // realizar se ativamento
+        if (!enabled) {
+
+            final android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(getContext());
+            alertDialog.setTitle("GPS está desativado");
+            alertDialog.setMessage("Deseja ativar o gps?");
+            alertDialog.setCancelable(true);
+            alertDialog.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                }
+            });
+            alertDialog.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            alertDialog.show();
+
+        }
     }
 
 

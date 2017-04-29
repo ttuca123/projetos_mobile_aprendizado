@@ -1,4 +1,4 @@
-package br.com.zenus.prazercity;
+package br.com.zenus.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,11 +7,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TabHost;
 
 import java.util.HashMap;
@@ -21,6 +19,8 @@ import java.util.Vector;
 import br.com.zenus.cadastro.CadastroActivity;
 import br.com.zenus.fragments.LocalFrag;
 import br.com.zenus.fragments.MapaFrag;
+import br.com.zenus.fragments.ViewPagerAdapter;
+import br.com.zenus.prazercity.R;
 
 public class MainActivity extends AppCompatActivity implements
         TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements
     private ViewPager mViewPager;
     private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, MainActivity.TabInfo>();
     private PagerAdapter mPagerAdapter;
+    private FloatingActionButton btnAdd;
 
     // Informação da Tab
     private class TabInfo {
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton btnAdd = (FloatingActionButton) findViewById(R.id.btnAdd);
+        btnAdd = (FloatingActionButton) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +140,15 @@ public class MainActivity extends AppCompatActivity implements
 
     public void onTabChanged(String tag) {
         // Avisa para o mViewPager qual a Tab que está ativa
+
         int pos = this.mTabHost.getCurrentTab();
+        if(pos==1){
+
+            btnAdd.setVisibility(View.GONE);
+        }else{
+            btnAdd.setVisibility(View.VISIBLE);
+        }
+
         this.mViewPager.setCurrentItem(pos);
     }
 
