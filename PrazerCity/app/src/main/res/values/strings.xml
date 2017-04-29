@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">PrazerCity</string>
-    <string name="action_settings">Configurações</string>
+    <string name="developBy">Desenvolvido por Artur Cavalcante - ttuca123@gmail.com</string>
+    <string name="action_about">Sobre</string>
+    <string name="action_sincronize">Atualizar</string>
     <string name="title_activity_main">Titulo</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCDdzAQL_SB9_WZ5tR3cyj7C67qYvhU_30</string>
-    <string name="title_activity_cadastro">CadastroActivity</string>
+    <string name="title_activity_cadastro">Cadastro de Locais</string>
 </resources>

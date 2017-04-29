@@ -13,7 +13,7 @@
         android:id="@+id/appBarLayout">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbarCadastro"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -21,47 +21,20 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_cadastro"
-        android:id="@+id/include" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:backgroundTint="@android:color/holo_green_light"
-        app:srcCompat="?android:attr/textCheckMark"
-        android:layout_marginRight="14dp"
-        android:layout_marginBottom="28dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="14dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cadastro de Local"
-        android:textSize="24sp"
-        app:layout_anchor="@+id/include"
-        android:layout_below="@+id/appBarLayout"
-        android:layout_toLeftOf="@+id/fab"
-        android:layout_toStartOf="@+id/fab"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/textView">
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/appBarLayout"
+        android:layout_marginTop="111dp"
+        android:background="#F8F8FF"
 
+        android:orientation="vertical">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="47dp"
-            />
 
         <EditText
             android:id="@+id/name_cadastro"
@@ -93,6 +66,32 @@
             android:text="Longitude"
             android:visibility="invisible" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#B0E0E6"
+        android:layout_alignParentStart="true">
+
+
+        <Button
+            android:id="@+id/btnCancelarCadastro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#A52A2A"
+            android:text="Cancelar" />
+
+        <Button
+            android:id="@+id/btnSalvarCadastro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#32CD32"
+            android:text="Salvar" />
     </LinearLayout>
 
 </RelativeLayout>

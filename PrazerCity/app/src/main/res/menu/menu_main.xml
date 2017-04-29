@@ -1,10 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     tools:context="br.com.zenus.main.MainActivity">
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:id="@+id/action_atualize"
+        android:icon="@drawable/sinc"
+        android:title="@string/action_sincronize"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="0"/>
+
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="0"
+        android:title="@string/action_about"
         app:showAsAction="never" />
 </menu>
