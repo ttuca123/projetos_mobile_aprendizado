@@ -28,11 +28,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.PermissionUtils;
 
-public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallback,  GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
+public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     TextView txtNome;
 
@@ -53,7 +52,7 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_detalhe_local);
-       intent = getIntent();
+        intent = getIntent();
 
         Bundle params = intent.getExtras();
 
@@ -74,7 +73,7 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
         txtNota = (TextView) findViewById(R.id.txtNota);
         btnLigar = (ImageButton) findViewById(R.id.btnFone);
 
-        if (params != null){
+        if (params != null) {
             txtNome.setText(params.getString("nome"));
             telefone.setText(params.getString("telefone"));
             latitude = params.getDouble("latitude");
@@ -93,12 +92,12 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
 
             mapearLocais(local);
 
-    }
+        }
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float avaliacao, boolean fromUser) {
 
-                Toast toast = Toast.makeText(DetalheLocal.this, "Sua avaliação foi "+String.valueOf(avaliacao), Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(DetalheLocal.this, "Sua avaliação foi " + String.valueOf(avaliacao), Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
@@ -109,39 +108,36 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
 
 
-               Uri uri = Uri.parse("tel:"+telefone);
+                Uri uri = Uri.parse("tel:" + telefone);
                 intent = new Intent(Intent.ACTION_CALL, uri);
                 startActivity(intent);
             }
         });
 
 
-
-        }
+    }
 
 
     private void mapearLocais(LatLng latLng) {
 
-        if (gMap != null ) {
+        if (gMap != null) {
 
 
-                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                try {
-                    MapsInitializer.initialize(this);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+            try {
+                MapsInitializer.initialize(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
-                gMap.animateCamera(update);
-                gMap.moveCamera(update);
+            gMap.animateCamera(update);
+            gMap.moveCamera(update);
 
 
             gMap.clear();
 
-            gMap.addMarker(new MarkerOptions().position(latLng).
-                    title("Diversão").snippet("Diversão com ótima qualidade")
-                    .draggable(true) );
+            gMap.addMarker(new MarkerOptions().position(latLng));
 
         }
     }

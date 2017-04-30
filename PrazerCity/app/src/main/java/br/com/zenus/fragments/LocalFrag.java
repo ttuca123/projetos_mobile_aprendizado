@@ -70,22 +70,32 @@ public class LocalFrag extends BaseFragment {
 			locais = localDao.loadAll();
 
 			locais = new ArrayList<Local>();
-			for(int i=0; i<10; i++) {
-
 
 				Local local = new Local();
-				Double latitude = -3.732634;
-				Double longitude = -38.527992;
+
+				Double latitude = -3.7286049;
+				Double longitude = -38.5349044;
 				local.setSeqLocal(128983L);
-				local.setNome("Skalla Drinks "+i+1);
+				local.setNome("Skalla Drinks ");
 				local.setTelefone("226-9292321309");
 				local.setAvaliacao(1.0);
 				local.setLatitude(latitude.doubleValue());
 				local.setLongitude(longitude.doubleValue());
 
 				locais.add(local);
-			}
 
+				local = new Local();
+
+				latitude = -3.744482;
+				longitude = -38.5340377;
+				local.setSeqLocal(128983L);
+				local.setNome("Puteiro 3010 ");
+				local.setTelefone("226-9292099");
+				local.setAvaliacao(4.0);
+				local.setLatitude(latitude.doubleValue());
+				local.setLongitude(longitude.doubleValue());
+
+				locais.add(local);
 
 		} catch (Exception e) {
 			e.printStackTrace();

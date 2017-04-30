@@ -68,12 +68,12 @@ public class MapaFrag extends Fragment {
 
             Location location = getLastKnownLocation();
 
-            if(location!=null) {
+            if (location != null) {
                 LatLng minhaLocalizacao = new LatLng(location.getLatitude(), location.getLongitude());
 
                 mapearLocais(location);
                 btnExibirLocais.setVisibility(View.GONE);
-            }else{
+            } else {
 
                 btnExibirLocais.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -86,7 +86,7 @@ public class MapaFrag extends Fragment {
 
                         Location location = getLastKnownLocation();
 
-                        if(location!=null) {
+                        if (location != null) {
                             LatLng minhaLocalizacao = new LatLng(location.getLatitude(), location.getLongitude());
 
                             mapearLocais(location);
@@ -94,7 +94,7 @@ public class MapaFrag extends Fragment {
                             btnExibirLocais.setVisibility(View.GONE);
 
 
-                        }else{
+                        } else {
                             btnExibirLocais.setVisibility(View.VISIBLE);
                         }
                     }
@@ -108,7 +108,6 @@ public class MapaFrag extends Fragment {
 
         return view;
     }
-
 
 
     private void solicitarPermissao() {
@@ -125,12 +124,12 @@ public class MapaFrag extends Fragment {
 
     private void mapearLocais(Location l) {
 
-        if (gMap != null ) {
+        if (gMap != null) {
             gMap.setMyLocationEnabled(true);
 
             LatLng latLng = null;
-            if( l != null) {
-                 latLng = new LatLng(l.getLatitude(), l.getLongitude());
+            if (l != null) {
+                latLng = new LatLng(l.getLatitude(), l.getLongitude());
                 CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 12);
                 try {
                     MapsInitializer.initialize(getActivity());
@@ -145,18 +144,22 @@ public class MapaFrag extends Fragment {
 
             List<LatLng> latLongitudes = new ArrayList<LatLng>();
 
-            latLongitudes.add(new LatLng(-3.726521, -38.520385));
-            latLongitudes.add(new LatLng(-3.733459, -38.527284));
+
+            latLongitudes.add(new LatLng(-3.7286049, -38.5349044));
+            latLongitudes.add(new LatLng(-3.744482, -38.5340377));
+
 
             gMap.clear();
 
-            for(LatLng latLong: latLongitudes){
 
+            gMap.addMarker(new MarkerOptions().position(latLongitudes.get(0)).
+                    title("Skalla Drinks").snippet("Aberto durante toda a semana, exceto aos domingos.")
+                    .draggable(true));
 
-                gMap.addMarker(new MarkerOptions().position(latLong).
-                        title("Diversão").snippet("Diversão com ótima qualidade")
-                       .draggable(true) );
-            }
+            gMap.addMarker(new MarkerOptions().position(latLongitudes.get(1)).
+                    title("3010").snippet("Aberto 24 Horas, exceto as segundas.")
+                    .draggable(true));
+
 
             gMap.getUiSettings().setZoomControlsEnabled(true);
             gMap.getUiSettings().setCompassEnabled(true);
@@ -204,7 +207,7 @@ public class MapaFrag extends Fragment {
         return bestLocation;
     }
 
-    private void verificarGPSAtivo(LocationManager service){
+    private void verificarGPSAtivo(LocationManager service) {
 
         boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
