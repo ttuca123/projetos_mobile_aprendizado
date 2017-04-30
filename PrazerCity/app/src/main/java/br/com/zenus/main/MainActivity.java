@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import br.com.zenus.cadastro.CadastroActivity;
+
 import br.com.zenus.fragments.LocalFrag;
 import br.com.zenus.fragments.MapaFrag;
 import br.com.zenus.fragments.ViewPagerAdapter;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements
     private ViewPager mViewPager;
     private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, MainActivity.TabInfo>();
     private PagerAdapter mPagerAdapter;
-    private FloatingActionButton btnAdd;
+
 
     // Informação da Tab
     private class TabInfo {
@@ -74,14 +74,7 @@ public class MainActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarPrincipal);
         setSupportActionBar(toolbar);
 
-        btnAdd = (FloatingActionButton) findViewById(R.id.btnAdd);
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent it = new Intent(MainActivity.this, CadastroActivity.class);
-                startActivity(it);
-            }
-        });
+
 
 
         // Inicializa o TabHost
@@ -152,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements
                 this.mTabHost.newTabSpec("Tab2").setIndicator("Mapa"),
                 (tabInfo = new TabInfo("Tab2", MapaFrag.class, args)));
         this.mapTabInfo.put(tabInfo.tag, tabInfo);
-
         mTabHost.setOnTabChangedListener(this);
 
 
@@ -170,12 +162,7 @@ public class MainActivity extends AppCompatActivity implements
         // Avisa para o mViewPager qual a Tab que está ativa
 
         int pos = this.mTabHost.getCurrentTab();
-        if(pos==1){
 
-            btnAdd.setVisibility(View.GONE);
-        }else{
-            btnAdd.setVisibility(View.VISIBLE);
-        }
 
         this.mViewPager.setCurrentItem(pos);
     }

@@ -1,6 +1,8 @@
 package br.com.zenus.adapter;
 
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -8,10 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import br.com.zenus.entidades.Local;
+import br.com.zenus.fragments.DetalheLocal;
+import br.com.zenus.main.MainActivity;
+import br.com.zenus.main.SobreActivity;
 import br.com.zenus.prazercity.R;
 
 
@@ -26,9 +32,10 @@ public class MyLocalViewAdapter extends RecyclerView.Adapter<MyLocalViewAdapter.
     private List<Local> mDataset;
 
 
-    class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener
-             {
+    class DataObjectHolder extends RecyclerView.ViewHolder {
+        View mView;
         TextView mNome;
+        TextView mAvaliacao;
         TextView mTelefone;
         TextView mLatitude;
         TextView mLongitude;
@@ -36,7 +43,9 @@ public class MyLocalViewAdapter extends RecyclerView.Adapter<MyLocalViewAdapter.
 
         public DataObjectHolder(final View itemView) {
             super(itemView);
+            mView = itemView;
             mTelefone = (TextView) itemView.findViewById(R.id.txtTelefone);
+            mAvaliacao = (TextView) itemView.findViewById(R.id.txtAvaliacaoItem);
             mNome = (TextView) itemView.findViewById(R.id.txtNome);
             mLatitude = (TextView) itemView.findViewById(R.id.txtLa);
             mLongitude = (TextView) itemView.findViewById(R.id.txtLo);
@@ -45,19 +54,8 @@ public class MyLocalViewAdapter extends RecyclerView.Adapter<MyLocalViewAdapter.
 
         }
 
-                 @Override
-                 public boolean onLongClick(View v) {
+    }
 
-                     String nome = mNome.getText().toString();
-                     String telefone = mTelefone.getText().toString();
-
-                     CharSequence[] items = {
-                             "Traçar Rota",
-                             "Avaliar"};
-
-                     return false;
-                 }
-             }
 
 
 
@@ -79,15 +77,35 @@ public class MyLocalViewAdapter extends RecyclerView.Adapter<MyLocalViewAdapter.
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
 
-        String nome = mDataset.get(position).getNome();
-        String telefone = mDataset.get(position).getTelefone();
-        String latitude = mDataset.get(position).getTelefone();
-        String longitude = mDataset.get(position).getTelefone();
+       final String nome = mDataset.get(position).getNome();
+        final Double avaliacao = mDataset.get(position).getAvaliacao();
+        final   String telefone = mDataset.get(position).getTelefone();
+        final  Double latitude = mDataset.get(position).getLatitude();
+        final  Double longitude = mDataset.get(position).getLongitude();
 
         holder.mNome.setText(nome);
         holder.mTelefone.setText(telefone);
-        holder.mLatitude.setText(latitude);
-        holder.mLongitude.setText(longitude);
+        holder.mAvaliacao.setText("Nota de Avaliaçao: "+avaliacao.toString());
+
+        holder.mLatitude.setText(latitude.toString());
+        holder.mLongitude.setText(longitude.toString());
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent it = new Intent(v.getContext(), DetalheLocal.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("nome", nome);
+                bundle.putString("telefone", telefone);
+                bundle.putDouble("avaliacao", avaliacao);
+                bundle.putDouble("latitude", latitude);
+                bundle.putDouble("longitude", longitude);
+
+                it.putExtras(bundle);
+                v.getContext().startActivity(it);
+            }
+        });
 
     }
 

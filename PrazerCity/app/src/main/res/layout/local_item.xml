@@ -7,49 +7,62 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="4dp"
-    app:cardElevation="6dp"
-    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="4dp"
 
     android:foreground="?attr/selectableItemBackground"
 
     android:padding="1dp">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-
-    <TextView
-        android:id="@+id/txtNome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nome"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/txtTelefone"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Telefone"
-        android:textSize="18sp"
-        android:layout_below="@+id/txtNome"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:text="La"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtLa"
-        android:textSize="14sp"
-        android:visibility="gone"/>
 
-    <TextView
-        android:text="Lo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtLo"
-        android:visibility="gone"/>
-</RelativeLayout>
+        <TextView
+            android:id="@+id/txtNome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nome"
+            android:textAllCaps="true"
+            android:textSize="24sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/txtAvaliacaoItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Avaliação"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/txtTelefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txtNome"
+            android:text="Telefone"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txtLa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="La"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txtLo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lo"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

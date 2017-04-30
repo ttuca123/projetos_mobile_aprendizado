@@ -29,14 +29,18 @@ public class Local {
     @Property(nameInDb = "longitude")
     private Double longitude;
 
-    @Generated(hash = 1722454556)
+    @Property(nameInDb = "avaliacao")
+    private Double avaliacao;
+
+    @Generated(hash = 1293733909)
     public Local(Long seqLocal, String nome, String telefone, Double latitude,
-            Double longitude) {
+            Double longitude, Double avaliacao) {
         this.seqLocal = seqLocal;
         this.nome = nome;
         this.telefone = telefone;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.avaliacao = avaliacao;
     }
 
     @Generated(hash = 1337064102)
@@ -82,6 +86,17 @@ public class Local {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
+    public Double getAvaliacao() {
+        return this.avaliacao;
+    }
+
+    public void setAvaliacao(Double avaliacao) {
+        this.avaliacao = avaliacao;
+    }
+
+
+
 
    
 

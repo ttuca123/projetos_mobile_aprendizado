@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.zenus.fragments.DetalheLocal">
+
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:gMap="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mapDetail"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        gMap:liteMode="true"
+            tools:layout_editor_absoluteY="0dp"
+        gMap:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteX="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="408dp"
+        android:layout_height="wrap_content"
+        android:background="#8B0000"
+        android:orientation="vertical"
+        android:weightSum="1"
+        tools:layout_editor_absoluteX="-11dp"
+        tools:layout_editor_absoluteY="295dp"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/txtAvaliacao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="0.28"
+            android:text="Sua Avaliação: "
+            android:textColor="#FFEBEE"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="434dp" />
+
+        <RatingBar
+            android:id="@+id/rtAvaliacao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+
+            android:background="#ADD8E6"
+            android:elevation="4dp"
+            android:textAlignment="center"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="451dp" />
+
+        <TextView
+            android:id="@+id/txtViewNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btnFone"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="23dp"
+            android:text="Nome"
+            android:textAlignment="center"
+            android:textColor="#FFEBEE"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="230dp" />
+
+        <TextView
+            android:id="@+id/txtViewFone"
+            android:layout_width="395dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/txtAvaliacao"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="25dp"
+            android:text="Telefone"
+            android:textAlignment="center"
+            android:textColor="#FFEBEE"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            tools:layout_editor_absoluteX="-1dp"
+            tools:layout_editor_absoluteY="264dp" />
+
+        <ImageButton
+            android:id="@+id/btnFone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:elevation="4dp"
+            android:background="#32CD32"
+            app:srcCompat="@android:drawable/stat_sys_phone_call"
+            tools:layout_editor_absoluteX="139dp"
+            tools:layout_editor_absoluteY="221dp"
+            android:layout_weight="0.53" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B22222"
+
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout3"
+        android:layout_below="@+id/mapDetail"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="38dp">
+
+
+        <TextView
+            android:id="@+id/txtAvaliacaoDetalhe"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/mapDetail"
+            android:layout_marginTop="25dp"
+            android:text="Avaliação Geral:"
+            android:textColor="#FFEBEE"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtNota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:fontFamily="serif"
+            android:text="Nota"
+            android:textAlignment="center"
+            android:textColor="#FFEBEE"
+            android:textSize="30sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

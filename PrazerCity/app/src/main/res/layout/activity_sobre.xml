@@ -7,32 +7,36 @@
     tools:context="br.com.zenus.main.SobreActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#4682B4"
-        android:layout_marginTop="122dp"
+        android:orientation="vertical"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="391dp"
-        android:layout_height="65dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="46dp"
-        android:layout_weight="0.32"
-        android:capitalize="words"
-        android:text="@string/about"
-        android:textAlignment="center"
-        android:textColor="@color/common_signin_btn_dark_text_default"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="443dp" />
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="46dp"
+            android:capitalize="words"
+            android:fontFamily="serif"
+
+            android:text="@string/about"
+            android:textAllCaps="true"
+            android:textColor="@color/common_signin_btn_dark_text_default"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="443dp" />
 
     </LinearLayout>
 
@@ -44,7 +48,8 @@
         android:layout_alignParentStart="true"
         android:background="@color/common_signin_btn_default_background"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:id="@+id/linearLayout2">
 
         <TextView
             android:id="@+id/textView2"
@@ -60,12 +65,25 @@
             android:capitalize="words"
             android:text="@string/developBy"
             android:textAlignment="center"
+            android:textAllCaps="false"
             android:textColor="@color/common_signin_btn_dark_text_default"
             android:textSize="18sp"
+            android:textStyle="italic"
             tools:layout_editor_absoluteX="32dp"
             tools:layout_editor_absoluteY="443dp" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/prazer_city"
+        android:layout_below="@+id/linearLayout4" />
 
 
 </RelativeLayout>

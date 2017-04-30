@@ -47,7 +47,7 @@ public class LocalFrag extends BaseFragment {
 
 	private void createLista(View view) {
 
-		mReciclerView = (RecyclerView) view.findViewById(R.id.recycler_local_view);
+		mReciclerView = (RecyclerView) view.findViewById(R.id.recycler_local);
 
 		mReciclerView.setHasFixedSize(true);
 
@@ -70,15 +70,18 @@ public class LocalFrag extends BaseFragment {
 			locais = localDao.loadAll();
 
 			locais = new ArrayList<Local>();
-			for(int i=0; i<30; i++) {
+			for(int i=0; i<10; i++) {
 
 
 				Local local = new Local();
-
+				Double latitude = -3.732634;
+				Double longitude = -38.527992;
 				local.setSeqLocal(128983L);
-				local.setNome("Nome do local "+i);
-				local.setTelefone("03921301231");
-
+				local.setNome("Skalla Drinks "+i+1);
+				local.setTelefone("226-9292321309");
+				local.setAvaliacao(1.0);
+				local.setLatitude(latitude.doubleValue());
+				local.setLongitude(longitude.doubleValue());
 
 				locais.add(local);
 			}
