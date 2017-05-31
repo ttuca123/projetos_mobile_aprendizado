@@ -139,7 +139,7 @@ public class CadastroActivity extends AppCompatActivity {
                                 .setMultipartParameter("nome_user", nome)
                                 .setMultipartParameter("email_user", email)
                                 .setMultipartParameter("senha_user", senha)
-                                //.setMultipartFile("photo_user", outPutFile)
+                                .setMultipartFile("photo_user", outPutFile)
                                 .asJsonObject()
                                 .setCallback(new FutureCallback<JsonObject>() {
                                     @Override
@@ -152,12 +152,12 @@ public class CadastroActivity extends AppCompatActivity {
 
                                                 Toast.makeText(getBaseContext(), "Cadastro realizado com sucesso.", Toast.LENGTH_LONG).show();
                                             } else if (result.get("retorno").getAsString().equals("NO")) {
-                                                Toast.makeText(getBaseContext(), "Erro ao realiar cadastro.", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getBaseContext(), "Erro ao realizar cadastro.", Toast.LENGTH_LONG).show();
                                             } else {
                                                 Toast.makeText(getBaseContext(), "Email já existe.", Toast.LENGTH_LONG).show();
                                             }
                                         }else{
-                                            Toast.makeText(getBaseContext(), "Erro ao realiar cadastro.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getBaseContext(), "Erro ao realizar cadastro.", Toast.LENGTH_LONG).show();
                                         }
                                     }
 
