@@ -1,0 +1,26 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="br.com.android.chat.ContatosFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/textView2"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Contatos"
+        android:textColor="@android:color/black"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnAddContato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        android:visibility="visible"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+</FrameLayout>

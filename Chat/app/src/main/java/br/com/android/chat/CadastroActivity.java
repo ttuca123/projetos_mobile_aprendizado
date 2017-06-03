@@ -167,13 +167,6 @@ public class CadastroActivity extends AppCompatActivity {
                     }
 
                 }
-
-//                dialog = ProgressDialog.show(view.getContext(), "Sincronizando",
-//                        "Aguarde, enquanto os dados são salvos!", false, true);
-
-//                CadastroTask task = new CadastroTask();
-//                task.execute();
-
             }
         });
 
