@@ -75,18 +75,33 @@ public class LocalFrag extends BaseFragment {
 		try {
 
 			Ion.with(view.getContext()).load(urlLocais)
-					.asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-				@Override
-				public void onCompleted(Exception e, JsonObject result) {
-
-					if(result!=null ){
+					.asJsonArray().setCallback(new FutureCallback<JsonArray>() {
+                @Override
+                public void onCompleted(Exception e, JsonArray result) {
+                    if(result!=null ){
 
 						Toast.makeText(view.getContext(), "Dados: "+result, Toast.LENGTH_LONG).show();
 					}else{
 						//Toast.makeText(getBaseContext(), "Erro ao enviar avaliação!", Toast.LENGTH_LONG).show();
 					}
-				}
-			});
+
+                }
+            });
+
+
+
+//                    .setCallback(new FutureCallback<JsonObject>() {
+//				@Override
+//				public void onCompleted(Exception e, JsonObject result) {
+//
+//					if(result!=null ){
+//
+//						Toast.makeText(view.getContext(), "Dados: "+result, Toast.LENGTH_LONG).show();
+//					}else{
+//						//Toast.makeText(getBaseContext(), "Erro ao enviar avaliação!", Toast.LENGTH_LONG).show();
+//					}
+//				}
+
 
 
 
