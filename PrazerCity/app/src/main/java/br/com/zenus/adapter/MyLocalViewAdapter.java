@@ -99,6 +99,7 @@ public class MyLocalViewAdapter extends RecyclerView.Adapter<MyLocalViewAdapter.
                 bundle.putString("nome", nome);
                 bundle.putString("telefone", telefone);
                 bundle.putDouble("avaliacao", avaliacao);
+                bundle.putDouble("media", avaliacao);
                 bundle.putDouble("latitude", latitude);
                 bundle.putDouble("longitude", longitude);
 

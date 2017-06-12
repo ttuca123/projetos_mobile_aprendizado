@@ -7,6 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +28,8 @@ import br.com.zenus.util.BaseFragment;
 import br.com.zenus.util.EntityDao;
 
 public class LocalFrag extends BaseFragment {
+
+	String urlLocais = "http://192.168.25.9/prazer-city/locais.php";
 
 	public LocalFrag() {
 		// Required empty public constructor
@@ -45,7 +53,7 @@ public class LocalFrag extends BaseFragment {
 		return view;
 	}
 
-	private void createLista(View view) {
+	private void createLista(final View view) {
 
 		mReciclerView = (RecyclerView) view.findViewById(R.id.recycler_local);
 
@@ -65,6 +73,23 @@ public class LocalFrag extends BaseFragment {
 
 
 		try {
+
+			Ion.with(view.getContext()).load(urlLocais)
+					.asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+				@Override
+				public void onCompleted(Exception e, JsonObject result) {
+
+					if(result!=null ){
+
+						Toast.makeText(view.getContext(), "Dados: "+result, Toast.LENGTH_LONG).show();
+					}else{
+						//Toast.makeText(getBaseContext(), "Erro ao enviar avaliação!", Toast.LENGTH_LONG).show();
+					}
+				}
+			});
+
+
+
 			LocalDao localDao = entityDao.getLocalDao(daoSession);
 
 			locais = localDao.loadAll();
@@ -77,7 +102,7 @@ public class LocalFrag extends BaseFragment {
 				Double longitude = -38.5349044;
 				local.setSeqLocal(128983L);
 				local.setNome("Skalla Drinks ");
-				local.setTelefone("226-9292321309");
+				local.setTelefone("9812914642");
 				local.setAvaliacao(1.0);
 				local.setLatitude(latitude.doubleValue());
 				local.setLongitude(longitude.doubleValue());
@@ -89,8 +114,8 @@ public class LocalFrag extends BaseFragment {
 				latitude = -3.744482;
 				longitude = -38.5340377;
 				local.setSeqLocal(128983L);
-				local.setNome("Puteiro 3010 ");
-				local.setTelefone("226-9292099");
+				local.setNome(" 3010 ");
+				local.setTelefone("987470788");
 				local.setAvaliacao(4.0);
 				local.setLatitude(latitude.doubleValue());
 				local.setLongitude(longitude.doubleValue());

@@ -26,6 +26,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 
 import br.com.zenus.prazercity.R;
@@ -33,13 +36,16 @@ import br.com.zenus.util.PermissionUtils;
 
 public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
+    String urlAvaliacao = "http://192.168.25.9/prazer-city/avaliar.php";
+
     TextView txtNome;
 
     TextView telefone;
     TextView txtNota;
     Double latitude;
     Double longitude;
-    Double nota;
+    Double avaliacao;
+    Double media;
     ImageButton btnLigar;
     Intent intent;
     RatingBar ratingBar;
@@ -78,8 +84,9 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
             telefone.setText(params.getString("telefone"));
             latitude = params.getDouble("latitude");
             longitude = params.getDouble("longitude");
-            nota = params.getDouble("avaliacao");
-            txtNota.setText(nota.toString());
+            avaliacao = params.getDouble("avaliacao");
+            media = params.getDouble("media");
+            txtNota.setText(avaliacao.toString());
 
 
             mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapDetail);
@@ -95,10 +102,25 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float avaliacao, boolean fromUser) {
+            public void onRatingChanged(RatingBar ratingBar, float aval, boolean fromUser) {
 
-                Toast toast = Toast.makeText(DetalheLocal.this, "Sua avaliação foi " + String.valueOf(avaliacao), Toast.LENGTH_SHORT);
-                toast.show();
+                avaliacao = Double.parseDouble( String.valueOf(aval));
+
+                Ion.with(getBaseContext()).load(urlAvaliacao)
+                        .setMultipartParameter("seqLocal", "9")
+                        .setMultipartParameter("aval", avaliacao.toString())
+                        .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if(result!=null && !result.equals("YES")){
+
+                            Toast.makeText(getBaseContext(), "Avaliação "+avaliacao+" enviada com sucesso!", Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getBaseContext(), "Erro ao enviar avaliação!", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
             }
         });
 
@@ -108,7 +130,7 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
 
 
-                Uri uri = Uri.parse("tel:" + telefone);
+                Uri uri = Uri.parse("tel:" + telefone.getText());
                 intent = new Intent(Intent.ACTION_CALL, uri);
                 startActivity(intent);
             }
@@ -117,6 +139,29 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        if(media!=avaliacao) {
+
+            Ion.with(getBaseContext()).load(urlAvaliacao)
+                    .setMultipartParameter("seqLocal", "9")
+                    .setMultipartParameter("aval", avaliacao.toString())
+                    .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    if(result!=null && !result.equals("YES")){
+
+                        Toast.makeText(getBaseContext(), "Avaliação enviada!", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getBaseContext(), "Erro ao enviar avaliação!", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            });
+
+//        }
+    }
 
     private void mapearLocais(LatLng latLng) {
 

@@ -32,7 +32,7 @@ dependencies {
     })
 
     compile group: 'com.squareup.retrofit', name: 'retrofit', version: '1.8.0'
-
+    compile 'com.koushikdutta.ion:ion:2.+'
     compile 'org.greenrobot:greendao:3.2.0'
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.google.android.gms:play-services:7.0.0'
