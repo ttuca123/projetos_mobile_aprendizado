@@ -1,9 +1,13 @@
 package br.com.zenus.entidades;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.Generated;
+
+import java.util.Collection;
 
 /**
  * Created by Tuca on 23/04/2017.
@@ -15,21 +19,27 @@ public class Local {
 
     @Id(autoincrement = true)
     @Property(nameInDb = "seq_local")
+    @SerializedName("seq_local")
     private Long seqLocal;
 
     @Property(nameInDb = "nome")
+    @SerializedName("nome")
     private String nome;
 
     @Property(nameInDb = "fone")
+    @SerializedName("fone")
     private String telefone;
 
     @Property(nameInDb = "latitude")
+    @SerializedName("latitude")
     private Double latitude;
 
     @Property(nameInDb = "longitude")
+    @SerializedName("longitude")
     private Double longitude;
 
     @Property(nameInDb = "avaliacao")
+    @SerializedName("avaliacao")
     private Double avaliacao;
 
     @Generated(hash = 1293733909)

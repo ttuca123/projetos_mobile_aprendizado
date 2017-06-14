@@ -6,15 +6,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import br.com.zenus.adapter.MyLocalViewAdapter;
@@ -22,6 +30,7 @@ import br.com.zenus.entidades.Local;
 import br.com.zenus.entidades.LocalDao;
 
 
+import br.com.zenus.entidades.LocalMaster;
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.App;
 import br.com.zenus.util.BaseFragment;
@@ -29,7 +38,7 @@ import br.com.zenus.util.EntityDao;
 
 public class LocalFrag extends BaseFragment {
 
-	String urlLocais = "http://192.168.25.9/prazer-city/locais.php";
+	String urlLocais = "http://192.168.25.9/prazer-city/buscar_locais.php";
 
 	public LocalFrag() {
 		// Required empty public constructor
@@ -49,11 +58,12 @@ public class LocalFrag extends BaseFragment {
 
 		createLista(view);
 
-		// Inflamos o layout tab_layout_local
 		return view;
 	}
 
-	private void createLista(final View view) {
+	private void createLista(View view) {
+
+		locais = new ArrayList<Local>();
 
 		mReciclerView = (RecyclerView) view.findViewById(R.id.recycler_local);
 
@@ -63,89 +73,45 @@ public class LocalFrag extends BaseFragment {
 
 		mReciclerView.setLayoutManager(mLayoutManager);
 
-		try {
-			entityDao = new EntityDao();
-			daoSession = ((App) getActivity().getApplication()).getDaoSession();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-		}
+		atualizarDados(view);
+	}
 
 
-		try {
 
-			Ion.with(view.getContext()).load(urlLocais)
-					.asJsonArray().setCallback(new FutureCallback<JsonArray>() {
-                @Override
-                public void onCompleted(Exception e, JsonArray result) {
-                    if(result!=null ){
+	public void atualizarDados(final View view){
 
-						Toast.makeText(view.getContext(), "Dados: "+result, Toast.LENGTH_LONG).show();
-					}else{
-						//Toast.makeText(getBaseContext(), "Erro ao enviar avaliação!", Toast.LENGTH_LONG).show();
+		Ion.with(view.getContext()).load(urlLocais)
+				.progress(new ProgressCallback() {
+					@Override
+					public void onProgress(long downloaded, long total) {
+
 					}
+				}).as(JsonObject.class)
+				.setCallback(new FutureCallback<JsonObject>() {
+					@Override
+					public void onCompleted(Exception e, JsonObject result) {
+						if (result != null) {
+							Gson gson = new Gson();
 
-                }
-            });
+							LocalMaster localMaster=null;
 
+							localMaster = gson.fromJson(result, LocalMaster.class);
 
+							locais = localMaster.getLocais();
 
-//                    .setCallback(new FutureCallback<JsonObject>() {
-//				@Override
-//				public void onCompleted(Exception e, JsonObject result) {
-//
-//					if(result!=null ){
-//
-//						Toast.makeText(view.getContext(), "Dados: "+result, Toast.LENGTH_LONG).show();
-//					}else{
-//						//Toast.makeText(getBaseContext(), "Erro ao enviar avaliação!", Toast.LENGTH_LONG).show();
-//					}
-//				}
+							Toast.makeText(view.getContext(), "Dados atualizados com sucesso!", Toast.LENGTH_LONG).show();
 
+							mAdapter = new MyLocalViewAdapter(locais);
 
-
-
-			LocalDao localDao = entityDao.getLocalDao(daoSession);
-
-			locais = localDao.loadAll();
-
-			locais = new ArrayList<Local>();
-
-				Local local = new Local();
-
-				Double latitude = -3.7286049;
-				Double longitude = -38.5349044;
-				local.setSeqLocal(128983L);
-				local.setNome("Skalla Drinks ");
-				local.setTelefone("9812914642");
-				local.setAvaliacao(1.0);
-				local.setLatitude(latitude.doubleValue());
-				local.setLongitude(longitude.doubleValue());
-
-				locais.add(local);
-
-				local = new Local();
-
-				latitude = -3.744482;
-				longitude = -38.5340377;
-				local.setSeqLocal(128983L);
-				local.setNome(" 3010 ");
-				local.setTelefone("987470788");
-				local.setAvaliacao(4.0);
-				local.setLatitude(latitude.doubleValue());
-				local.setLongitude(longitude.doubleValue());
-
-				locais.add(local);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-
-		mAdapter = new MyLocalViewAdapter(locais);
-
-		mReciclerView.setAdapter(mAdapter);
+							mReciclerView.setAdapter(mAdapter);
+						} else {
+							Toast.makeText(view.getContext(), "Erro ao carregar dados!", Toast.LENGTH_LONG).show();
+						}
+					}
+				});
 
 	}
+
+
 
 }

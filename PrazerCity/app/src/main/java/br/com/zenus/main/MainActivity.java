@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements
     private ViewPager mViewPager;
     private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, MainActivity.TabInfo>();
     private PagerAdapter mPagerAdapter;
-
+    private int tabAtual=0;
 
     // Informação da Tab
     private class TabInfo {
@@ -73,9 +73,6 @@ public class MainActivity extends AppCompatActivity implements
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarPrincipal);
         setSupportActionBar(toolbar);
-
-
-
 
         // Inicializa o TabHost
         this.initialiseTabHost(savedInstanceState);
@@ -162,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements
         // Avisa para o mViewPager qual a Tab que está ativa
 
         int pos = this.mTabHost.getCurrentTab();
-
+        tabAtual=pos;
 
         this.mViewPager.setCurrentItem(pos);
     }
