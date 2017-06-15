@@ -31,12 +31,13 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 
+import br.com.zenus.EnuServicos;
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.PermissionUtils;
 
 public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
-    String urlAvaliacao = "http://192.168.25.9/prazer-city/avaliar.php";
+
 
     TextView txtNome;
 
@@ -106,7 +107,7 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
 
                 avaliacao = Double.parseDouble( String.valueOf(aval));
 
-                Ion.with(getBaseContext()).load(urlAvaliacao)
+                Ion.with(getBaseContext()).load(EnuServicos.AVALIAR.getNomeAmigavel())
                         .setMultipartParameter("seqLocal", "9")
                         .setMultipartParameter("aval", avaliacao.toString())
                         .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
@@ -136,31 +137,6 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        if(media!=avaliacao) {
-
-            Ion.with(getBaseContext()).load(urlAvaliacao)
-                    .setMultipartParameter("seqLocal", "9")
-                    .setMultipartParameter("aval", avaliacao.toString())
-                    .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-                @Override
-                public void onCompleted(Exception e, JsonObject result) {
-                    if(result!=null && !result.equals("YES")){
-
-                        Toast.makeText(getBaseContext(), "Avaliação enviada!", Toast.LENGTH_LONG).show();
-                    }else{
-                        Toast.makeText(getBaseContext(), "Erro ao enviar avaliação!", Toast.LENGTH_LONG).show();
-                    }
-
-                }
-            });
-
-//        }
     }
 
     private void mapearLocais(LatLng latLng) {
