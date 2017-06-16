@@ -16,6 +16,7 @@
     <TabHost
         android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
+        android:elevation="2dp"
         android:layout_height="fill_parent" >
 
         <LinearLayout
@@ -34,12 +35,14 @@
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:orientation="horizontal" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_weight="0.34" />
         </LinearLayout>
     </TabHost>

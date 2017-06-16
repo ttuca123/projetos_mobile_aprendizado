@@ -1,7 +1,5 @@
 package br.com.zenus.fragments;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,10 +19,8 @@ import br.com.zenus.entidades.Local;
 
 
 import br.com.zenus.main.CarregaDados;
-import br.com.zenus.main.MainActivity;
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.Base;
-import br.com.zenus.util.ThreadProcessamento;
 
 public class LocalFrag extends Base {
 
@@ -75,9 +71,7 @@ public class LocalFrag extends Base {
 
 		popularDados();
 
-		ThreadProcessamento processo = new ThreadProcessamento(handler);
-		Thread t = new Thread(processo);
-		t.start();
+
 
 		return viewFrag;
 	}

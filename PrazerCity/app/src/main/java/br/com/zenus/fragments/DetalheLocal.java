@@ -34,6 +34,7 @@ import com.koushikdutta.ion.Ion;
 import br.com.zenus.EnuServicos;
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.PermissionUtils;
+import br.com.zenus.util.Utilitarios;
 
 public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
@@ -111,7 +112,7 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
 
                 if (avaliacao > 0) {
 
-                    Ion.with(getBaseContext()).load(EnuServicos.AVALIAR.getNomeAmigavel())
+                    Ion.with(getBaseContext()).load(Utilitarios.acessarServico(EnuServicos.AVALIAR))
                             .setMultipartParameter("seqLocal", seqLocal.toString())
                             .setMultipartParameter("aval", avaliacao.toString())
                             .asJsonObject().setCallback(new FutureCallback<JsonObject>() {

@@ -25,6 +25,7 @@ import br.com.zenus.entidades.Local;
 import br.com.zenus.entidades.LocalMaster;
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.App;
+import br.com.zenus.util.Utilitarios;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -222,7 +223,7 @@ public class CarregaDados extends AppCompatActivity {
 
     public void popularDados(){
 
-        Ion.with(getBaseContext()).load(EnuServicos.LOCAIS.getNomeAmigavel())
+        Ion.with(getBaseContext()).load(Utilitarios.acessarServico(EnuServicos.LOCAIS))
                 .as(JsonObject.class)
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -242,6 +243,10 @@ public class CarregaDados extends AppCompatActivity {
 
                             for(Local local: locais){
 
+                                if(local.getNome().contains("")){
+                                    local.getNome().replace("\\u00c3\\u00a7", "ç");
+                                }
+
                                 daoSession.getLocalDao().insert(local);
                             }
                             Toast.makeText(getBaseContext(), "Dados atualizados com sucesso!", Toast.LENGTH_LONG).show();
@@ -252,6 +257,7 @@ public class CarregaDados extends AppCompatActivity {
                         }
                         Intent it = new Intent(CarregaDados.this, MainActivity.class);
                         startActivity(it);
+                        finish();
                     }
                 });
 

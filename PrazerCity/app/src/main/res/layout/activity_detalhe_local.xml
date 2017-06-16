@@ -15,14 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         gMap:liteMode="true"
-            tools:layout_editor_absoluteY="0dp"
+
         gMap:layout_constraintRight_toRightOf="parent"
         tools:layout_editor_absoluteX="8dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true" />
+             />
 
 
     <LinearLayout
@@ -103,12 +103,12 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:elevation="4dp"
+            android:layout_weight="0.19"
             android:background="#32CD32"
+            android:elevation="4dp"
             app:srcCompat="@android:drawable/stat_sys_phone_call"
             tools:layout_editor_absoluteX="139dp"
-            tools:layout_editor_absoluteY="221dp"
-            android:layout_weight="0.53" />
+            tools:layout_editor_absoluteY="221dp" />
 
 
     </LinearLayout>
@@ -120,10 +120,9 @@
 
         android:orientation="horizontal"
         android:id="@+id/linearLayout3"
-        android:layout_below="@+id/mapDetail"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="38dp">
+        android:layout_below="@+id/mapDetail">
 
 
         <TextView

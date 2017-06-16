@@ -7,8 +7,8 @@ package br.com.zenus;
 public enum EnuServicos {
 
 
-    LOCAIS(1, "http://192.168.25.9/projetos_web_aprendizado/prazer-city/buscar_locais.php"),
-    AVALIAR(2, "http://192.168.25.9/projetos_web_aprendizado/prazer-city/avaliar.php");
+    LOCAIS(1, "buscar_locais.php"),
+    AVALIAR(2, "avaliar.php");
 
     /**
      * Opção que será armazenada.

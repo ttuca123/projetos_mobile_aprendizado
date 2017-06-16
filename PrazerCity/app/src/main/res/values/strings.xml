@@ -84,7 +84,7 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
 
-    <string name="title_activity_carrega_dados">CarregaDados</string>
+    <string name="title_activity_carrega_dados">Prazer City</string>
 
     <string name="dummy_content">Carregando Dados do Aplicativo</string>
 </resources>
