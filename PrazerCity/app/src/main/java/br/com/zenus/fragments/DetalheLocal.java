@@ -50,6 +50,7 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
     ImageButton btnLigar;
     Intent intent;
     RatingBar ratingBar;
+    private Double seqLocal;
 
     protected GoogleMap gMap;
     protected SupportMapFragment mapFragment;
@@ -81,6 +82,7 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
         btnLigar = (ImageButton) findViewById(R.id.btnFone);
 
         if (params != null) {
+            seqLocal = params.getDouble("seqLocal");
             txtNome.setText(params.getString("nome"));
             telefone.setText(params.getString("telefone"));
             latitude = params.getDouble("latitude");
@@ -105,23 +107,26 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float aval, boolean fromUser) {
 
-                avaliacao = Double.parseDouble( String.valueOf(aval));
+                avaliacao = Double.parseDouble(String.valueOf(aval));
 
-                Ion.with(getBaseContext()).load(EnuServicos.AVALIAR.getNomeAmigavel())
-                        .setMultipartParameter("seqLocal", "9")
-                        .setMultipartParameter("aval", avaliacao.toString())
-                        .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        if(result!=null && !result.equals("YES")){
+                if (avaliacao > 0) {
 
-                            Toast.makeText(getBaseContext(), "Avaliação "+avaliacao+" enviada com sucesso!", Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(getBaseContext(), "Erro ao enviar avaliação!", Toast.LENGTH_LONG).show();
+                    Ion.with(getBaseContext()).load(EnuServicos.AVALIAR.getNomeAmigavel())
+                            .setMultipartParameter("seqLocal", seqLocal.toString())
+                            .setMultipartParameter("aval", avaliacao.toString())
+                            .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonObject result) {
+                            if (result != null && !result.equals("YES")) {
+
+                                Toast.makeText(getBaseContext(), "Avaliação " + avaliacao + " enviada com sucesso!", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getBaseContext(), "Erro ao enviar avaliação!", Toast.LENGTH_LONG).show();
+                            }
+
                         }
-
-                    }
-                });
+                    });
+                }
             }
         });
 

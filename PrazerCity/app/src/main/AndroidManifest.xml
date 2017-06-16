@@ -40,13 +40,8 @@
             android:name="br.com.zenus.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
         <activity android:name="br.com.zenus.main.SobreActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -56,7 +51,19 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.zenus.main.MainActivity" />
-            </activity>
+        </activity>
+        <activity
+            android:name="br.com.zenus.main.CarregaDados"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_carrega_dados"
+            android:theme="@style/FullscreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

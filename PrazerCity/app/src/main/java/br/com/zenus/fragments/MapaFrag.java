@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import br.com.zenus.entidades.Local;
+import br.com.zenus.main.CarregaDados;
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.PermissionUtils;
 
@@ -142,24 +144,20 @@ public class MapaFrag extends Fragment {
                 gMap.moveCamera(update);
             }
 
-            List<LatLng> latLongitudes = new ArrayList<LatLng>();
-
-
-            latLongitudes.add(new LatLng(-3.7286049, -38.5349044));
-            latLongitudes.add(new LatLng(-3.744482, -38.5340377));
-
-
             gMap.clear();
 
+            List<Local> locais = new ArrayList<Local>();
 
-            gMap.addMarker(new MarkerOptions().position(latLongitudes.get(0)).
-                    title("Skalla Drinks").snippet("Aberto durante toda a semana, exceto aos domingos.")
-                    .draggable(true));
+            locais = CarregaDados.daoSession.getLocalDao().loadAll();
 
-            gMap.addMarker(new MarkerOptions().position(latLongitudes.get(1)).
-                    title("3010").snippet("Aberto 24 Horas, exceto as segundas.")
-                    .draggable(true));
+            for(Local local: locais){
 
+                LatLng latLongitude = new LatLng(local.getLatitude(),local.getLongitude());
+
+                gMap.addMarker(new MarkerOptions().position(latLongitude).
+                        title(local.getNome()).snippet(local.getDescricao()+" - Nota: "+local.getAvaliacao())
+                        .draggable(true));
+            }
 
             gMap.getUiSettings().setZoomControlsEnabled(true);
             gMap.getUiSettings().setCompassEnabled(true);

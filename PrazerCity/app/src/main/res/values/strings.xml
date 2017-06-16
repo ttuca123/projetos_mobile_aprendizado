@@ -83,4 +83,8 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="title_activity_carrega_dados">CarregaDados</string>
+
+    <string name="dummy_content">Carregando Dados do Aplicativo</string>
 </resources>

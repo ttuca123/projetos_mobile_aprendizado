@@ -1,7 +1,10 @@
 package br.com.zenus.fragments;
 
-import android.app.ProgressDialog;
+import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,33 +12,41 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.ProgressCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.zenus.EnuServicos;
 import br.com.zenus.adapter.MyLocalViewAdapter;
 import br.com.zenus.entidades.Local;
 
 
-import br.com.zenus.entidades.LocalMaster;
+import br.com.zenus.main.CarregaDados;
+import br.com.zenus.main.MainActivity;
 import br.com.zenus.prazercity.R;
-import br.com.zenus.util.BaseFragment;
-import br.com.zenus.util.Utilitarios;
+import br.com.zenus.util.Base;
+import br.com.zenus.util.ThreadProcessamento;
 
-public class LocalFrag extends BaseFragment {
+public class LocalFrag extends Base {
 
 	private LayoutInflater inflater;
 	private ViewGroup container;
 	private Button btnRecarregarDados;
 	private View viewFrag;
+
+
+
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			//chamo um método para melhor organização.
+			if(msg.what==1){
+
+				popularDados();
+
+			}
+
+		}
+	};
 
 
 	public LocalFrag() {
@@ -58,30 +69,18 @@ public class LocalFrag extends BaseFragment {
 
 		viewFrag = (RelativeLayout) inflater.inflate(R.layout.tab_layout_local, container, false);
 
+		daoSession = CarregaDados.daoSession;
+
 		prepararLista(viewFrag);
 
-		if(Utilitarios.verificarConexao(viewFrag.getContext())){
+		popularDados();
 
-			popularDados(viewFrag);
-
-		}else{
-
-			viewFrag = (RelativeLayout) inflater.inflate(R.layout.frg_sem_conexao, container, false);
-			btnRecarregarDados = (Button) viewFrag.findViewById(R.id.btnCarregarDados);
-
-			btnRecarregarDados.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					popularDados(view);
-				}
-			});
-		}
-
+		ThreadProcessamento processo = new ThreadProcessamento(handler);
+		Thread t = new Thread(processo);
+		t.start();
 
 		return viewFrag;
 	}
-
-
 
 	private void prepararLista(View view) {
 
@@ -95,47 +94,16 @@ public class LocalFrag extends BaseFragment {
 
 	}
 
-	public void popularDados(final View viewDados){
-		final ProgressDialog pd = new ProgressDialog(viewFrag.getContext());
-		pd.setMessage("carregando");
+	public void popularDados(){
 
-		pd.show();
-		Ion.with(viewDados.getContext()).load(EnuServicos.LOCAIS.getNomeAmigavel())
-				.as(JsonObject.class)
-				.setCallback(new FutureCallback<JsonObject>() {
-					@Override
-					public void onCompleted(Exception e, JsonObject result) {
+				locais = daoSession.loadAll(Local.class);
 
+				mAdapter = new MyLocalViewAdapter(locais);
 
-						if (result != null) {
-							Gson gson = new Gson();
-
-							LocalMaster localMaster=null;
-
-							localMaster = gson.fromJson(result, LocalMaster.class);
-
-							locais = localMaster.getLocais();
-
-							inflater = LayoutInflater.from(viewFrag.getContext());
-							View Cv = inflater.inflate(R.layout.tab_layout_local,null);
-
-							prepararLista(viewFrag);
-
-							mAdapter = new MyLocalViewAdapter(locais);
-
-							mReciclerView.setAdapter(mAdapter);
-
-							container.addView(Cv);
-
-							Toast.makeText(viewDados.getContext(), "Dados atualizados com sucesso!", Toast.LENGTH_LONG).show();
-						} else {
-							Toast.makeText(viewDados.getContext(), "Erro ao carregar dados!", Toast.LENGTH_LONG).show();
-						}
-					}
-				});
-		pd.dismiss();
-
+				mReciclerView.setAdapter(mAdapter);
 	}
+
+
 
 
 

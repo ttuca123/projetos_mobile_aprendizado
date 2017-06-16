@@ -42,15 +42,20 @@ public class Local {
     @SerializedName("avaliacao")
     private Double avaliacao;
 
-    @Generated(hash = 1293733909)
+    @Property(nameInDb = "descricao")
+    @SerializedName("descricao")
+    private String descricao;
+
+    @Generated(hash = 97002594)
     public Local(Long seqLocal, String nome, String telefone, Double latitude,
-            Double longitude, Double avaliacao) {
+            Double longitude, Double avaliacao, String descricao) {
         this.seqLocal = seqLocal;
         this.nome = nome;
         this.telefone = telefone;
         this.latitude = latitude;
         this.longitude = longitude;
         this.avaliacao = avaliacao;
+        this.descricao = descricao;
     }
 
     @Generated(hash = 1337064102)
@@ -103,6 +108,14 @@ public class Local {
 
     public void setAvaliacao(Double avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    public String getDescricao() {
+        return this.descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
 

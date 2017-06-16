@@ -11,7 +11,7 @@ import br.com.zenus.entidades.DaoSession;
  * Created by Tuca on 24/04/2017.
  */
 
-public class BaseFragment extends Fragment {
+public class Base extends Fragment {
 
     protected RecyclerView mReciclerView;
 

@@ -34,6 +34,7 @@ public class MyLocalViewAdapter extends RecyclerView.Adapter<MyLocalViewAdapter.
 
     class DataObjectHolder extends RecyclerView.ViewHolder {
         View mView;
+        TextView mIdseqLocal;
         TextView mNome;
         TextView mAvaliacao;
         TextView mTelefone;
@@ -44,6 +45,7 @@ public class MyLocalViewAdapter extends RecyclerView.Adapter<MyLocalViewAdapter.
         public DataObjectHolder(final View itemView) {
             super(itemView);
             mView = itemView;
+            mIdseqLocal = (TextView) itemView.findViewById(R.id.txtSeqLocal);
             mTelefone = (TextView) itemView.findViewById(R.id.txtTelefone);
             mAvaliacao = (TextView) itemView.findViewById(R.id.txtAvaliacaoItem);
             mNome = (TextView) itemView.findViewById(R.id.txtNome);
@@ -77,12 +79,14 @@ public class MyLocalViewAdapter extends RecyclerView.Adapter<MyLocalViewAdapter.
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
 
+        final Long seqLocal = mDataset.get(position).getSeqLocal();
        final String nome = mDataset.get(position).getNome();
         final Double avaliacao = mDataset.get(position).getAvaliacao();
         final   String telefone = mDataset.get(position).getTelefone();
         final  Double latitude = mDataset.get(position).getLatitude();
         final  Double longitude = mDataset.get(position).getLongitude();
 
+        holder.mIdseqLocal.setText(seqLocal.toString());
         holder.mNome.setText(nome);
         holder.mTelefone.setText(telefone);
         holder.mAvaliacao.setText("Nota de Avaliaçao: "+avaliacao.toString());
@@ -96,6 +100,8 @@ public class MyLocalViewAdapter extends RecyclerView.Adapter<MyLocalViewAdapter.
 
                 Intent it = new Intent(v.getContext(), DetalheLocal.class);
                 Bundle bundle = new Bundle();
+
+                bundle.putDouble("seqLocal", seqLocal);
                 bundle.putString("nome", nome);
                 bundle.putString("telefone", telefone);
                 bundle.putDouble("avaliacao", avaliacao);

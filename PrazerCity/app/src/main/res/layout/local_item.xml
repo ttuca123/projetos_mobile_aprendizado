@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nome"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Avaliação"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:textStyle="italic" />
 
         <TextView
@@ -46,6 +46,14 @@
             android:layout_below="@+id/txtNome"
             android:text="Telefone"
             android:textSize="18sp"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/txtSeqLocal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:visibility="gone" />
 
         <TextView

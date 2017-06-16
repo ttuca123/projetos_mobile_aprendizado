@@ -3,9 +3,11 @@ package br.com.zenus.main;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+
 import android.support.v4.app.Fragment;
+
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,15 +17,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
 
+
+
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+
 
 
 import br.com.zenus.fragments.LocalFrag;
 import br.com.zenus.fragments.MapaFrag;
 import br.com.zenus.fragments.ViewPagerAdapter;
 import br.com.zenus.prazercity.R;
+
 
 public class MainActivity extends AppCompatActivity implements
         TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
@@ -33,6 +40,11 @@ public class MainActivity extends AppCompatActivity implements
     private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, MainActivity.TabInfo>();
     private PagerAdapter mPagerAdapter;
     private int tabAtual=0;
+
+
+    Bundle savedInstance;
+
+
 
     // Informação da Tab
     private class TabInfo {
@@ -66,22 +78,33 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Infla o layout
-        setContentView(R.layout.main_activity);
 
+    private void criarView(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarPrincipal);
         setSupportActionBar(toolbar);
 
         // Inicializa o TabHost
-        this.initialiseTabHost(savedInstanceState);
-        if (savedInstanceState != null) {
+        this.initialiseTabHost(this.savedInstance);
+        if (savedInstance != null) {
             // Define a Tab de acordo com o estado salvo
-            mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+            mTabHost.setCurrentTabByTag(savedInstance.getString("tab"));
         }
+
+
         // Inicializa o ViewPager
         this.intialiseViewPager();
+
+    }
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Infla o layout
+        setContentView(R.layout.main_activity);
+        this.savedInstance = savedInstanceState;
+
+
+        criarView();
+
     }
 
     @Override
@@ -96,20 +119,25 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        ProgressDialog dialog;
+        Intent it;
 
             switch (id) {
                 case R.id.action_about:
 
-                    Intent it = new Intent(MainActivity.this, SobreActivity.class);
+                     it = new Intent(MainActivity.this, SobreActivity.class);
                     startActivity(it);
+                    break;
+                case R.id.action_atualize:
+
+                    it = new Intent(MainActivity.this, CarregaDados.class);
+                    startActivity(it);
+                    finish();
                     break;
             }
 
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
     protected void onSaveInstanceState(Bundle outState) {
@@ -121,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements
     private void intialiseViewPager() {
 
         List<Fragment> fragments = new Vector<Fragment>();
+
         fragments.add(Fragment.instantiate(this, LocalFrag.class.getName()));
         fragments.add(Fragment.instantiate(this, MapaFrag.class.getName()));
         this.mPagerAdapter = new ViewPagerAdapter(
@@ -143,8 +172,6 @@ public class MainActivity extends AppCompatActivity implements
                 (tabInfo = new TabInfo("Tab2", MapaFrag.class, args)));
         this.mapTabInfo.put(tabInfo.tag, tabInfo);
         mTabHost.setOnTabChangedListener(this);
-
-
     }
 
 
