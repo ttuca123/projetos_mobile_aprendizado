@@ -30,11 +30,11 @@ public class Utilitarios {
     }
 
 
-    public static String acessarServico(EnuServicos enuServico){
+    public static String acessarServico(EnuServicos enuServico) {
 
         StringBuilder realizarServico = new StringBuilder();
 
-        realizarServico.append(SERVIDOR_PRODUCAO);
+        realizarServico.append(SERVIDOR_LOCAL);
 
         realizarServico.append(enuServico.getNomeAmigavel());
 

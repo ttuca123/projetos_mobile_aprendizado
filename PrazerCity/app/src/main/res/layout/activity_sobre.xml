@@ -7,40 +7,6 @@
     tools:context="br.com.zenus.main.SobreActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#4682B4"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:weightSum="1">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="46dp"
-            android:capitalize="words"
-            android:fontFamily="serif"
-
-            android:text="@string/about"
-            android:textAllCaps="true"
-            android:textColor="@color/common_signin_btn_dark_text_default"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="32dp"
-            tools:layout_editor_absoluteY="443dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -82,8 +48,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        app:srcCompat="@drawable/prazer_city"
-        android:layout_below="@+id/linearLayout4" />
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/prazer_city" />
 
 
 </RelativeLayout>

@@ -18,6 +18,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import br.com.zenus.EnuServicos;
 import br.com.zenus.entidades.DaoSession;
@@ -56,23 +57,7 @@ public class CarregaDados extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
     private View mContentView;
-    private final Runnable mHidePart2Runnable = new Runnable() {
-        @SuppressLint("InlinedApi")
-        @Override
-        public void run() {
-            // Delayed removal of status and navigation bar
 
-            // Note that some of these constants are new as of API 16 (Jelly Bean)
-            // and API 19 (KitKat). It is safe to use them, as they are inlined
-            // at compile-time and do nothing on earlier devices.
-            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        }
-    };
     private View mControlsView;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
@@ -86,26 +71,7 @@ public class CarregaDados extends AppCompatActivity {
         }
     };
     private boolean mVisible;
-    private final Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,147 +85,68 @@ public class CarregaDados extends AppCompatActivity {
         dialog = ProgressDialog.show(this, "Atualização dos Dados",
                 "Carregando Novos Locais", false, true);
 
-        LocalTask task = new LocalTask();
-        task.execute();
-
-
+        popularDados();
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
 
-        // Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-
 
 
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
-    }
-
-    private void toggle() {
-        if (mVisible) {
-            hide();
-        } else {
-            show();
-        }
-    }
-
-    private void hide() {
-        // Hide UI first
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
-        mControlsView.setVisibility(View.GONE);
-        mVisible = false;
-
-        // Schedule a runnable to remove the status and navigation bar after a delay
-        mHideHandler.removeCallbacks(mShowPart2Runnable);
-        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
-    }
-
-    @SuppressLint("InlinedApi")
-    private void show() {
-        // Show the system bar
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        mVisible = true;
-
-        // Schedule a runnable to display UI elements after a delay
-        mHideHandler.removeCallbacks(mHidePart2Runnable);
-        mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
-    }
-
-    /**
-     * Schedules a call to hide() in [delay] milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
-    }
 
 
-
-    private class LocalTask extends AsyncTask<Void, Void,Void> {
-
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            popularDados();
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            dialog.dismiss();
+    public void popularDados() {
 
 
-        }
-    }
-
-    public void popularDados(){
-
-        Ion.with(getBaseContext()).load(Utilitarios.acessarServico(EnuServicos.LOCAIS))
-                .as(JsonObject.class)
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
+        try {
+            Ion.with(getBaseContext()).load(Utilitarios.acessarServico(EnuServicos.LOCAIS))
+                    .as(JsonObject.class)
+                    .setCallback(new FutureCallback<JsonObject>() {
 
 
-                        if (result != null) {
-                            Gson gson = new Gson();
+                        @Override
+                        public void onCompleted(Exception e, JsonObject result) {
 
-                            LocalMaster localMaster=null;
 
-                            localMaster = gson.fromJson(result, LocalMaster.class);
+                            if (result != null) {
+                                Gson gson = new Gson();
 
-                            locais = localMaster.getLocais();
+                                LocalMaster localMaster = null;
 
-                            daoSession.deleteAll(Local.class);
+                                localMaster = gson.fromJson(result, LocalMaster.class);
 
-                            for(Local local: locais){
+                                locais = localMaster.getLocais();
 
-                                if(local.getNome().contains("")){
-                                    local.getNome().replace("\\u00c3\\u00a7", "ç");
+                                daoSession.deleteAll(Local.class);
+
+                                for (Local local : locais) {
+
+                                    if (local.getNome().contains("")) {
+                                        local.getNome().replace("\\u00c3\\u00a7", "ç");
+                                    }
+
+                                    daoSession.getLocalDao().insert(local);
+
+
                                 }
+                                Toast.makeText(getBaseContext(), "Dados atualizados com sucesso!", Toast.LENGTH_LONG).show();
 
-                                daoSession.getLocalDao().insert(local);
+
+                            } else {
+                                Toast.makeText(getBaseContext(), "Erro ao atualizar dados!", Toast.LENGTH_LONG).show();
                             }
-                            Toast.makeText(getBaseContext(), "Dados atualizados com sucesso!", Toast.LENGTH_LONG).show();
 
-
-                        } else {
-                            Toast.makeText(getBaseContext(), "Erro ao atualizar dados!", Toast.LENGTH_LONG).show();
                         }
-                        Intent it = new Intent(CarregaDados.this, MainActivity.class);
-                        startActivity(it);
-                        finish();
-                    }
-                });
+                    });
+        } finally {
+            Intent it = new Intent(CarregaDados.this, MainActivity.class);
+            startActivity(it);
+            finish();
+            dialog.dismiss();
+        }
 
 
     }
