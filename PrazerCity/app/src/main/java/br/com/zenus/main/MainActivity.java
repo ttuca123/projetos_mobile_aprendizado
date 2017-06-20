@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.main_activity);
         this.savedInstance = savedInstanceState;
 
-
         criarView();
 
     }

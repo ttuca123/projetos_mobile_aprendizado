@@ -18,6 +18,7 @@ import br.com.zenus.adapter.MyLocalViewAdapter;
 import br.com.zenus.entidades.Local;
 
 
+import br.com.zenus.entidades.LocalDao;
 import br.com.zenus.main.CarregaDados;
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.Base;
@@ -90,7 +91,7 @@ public class LocalFrag extends Base {
 
 	public void popularDados(){
 
-				locais = daoSession.loadAll(Local.class);
+				locais = daoSession.getLocalDao().queryBuilder().orderDesc(LocalDao.Properties.Avaliacao).list();
 
 				mAdapter = new MyLocalViewAdapter(locais);
 

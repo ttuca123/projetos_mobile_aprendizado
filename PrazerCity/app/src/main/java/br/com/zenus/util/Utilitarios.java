@@ -34,7 +34,7 @@ public class Utilitarios {
 
         StringBuilder realizarServico = new StringBuilder();
 
-        realizarServico.append(SERVIDOR_LOCAL);
+        realizarServico.append(SERVIDOR_PRODUCAO);
 
         realizarServico.append(enuServico.getNomeAmigavel());
 
