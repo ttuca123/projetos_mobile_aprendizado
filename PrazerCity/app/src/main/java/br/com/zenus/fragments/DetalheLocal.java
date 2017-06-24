@@ -1,6 +1,7 @@
 package br.com.zenus.fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
@@ -37,7 +38,6 @@ import br.com.zenus.util.PermissionUtils;
 import br.com.zenus.util.Utilitarios;
 
 public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
-
 
 
     TextView txtNome;
@@ -132,17 +132,24 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
+        final Activity activity = this;
+
         btnLigar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String[] permissoes = new String[]{
+                        Manifest.permission.CALL_PHONE
+                };
 
-
-                Uri uri = Uri.parse("tel:" + telefone.getText());
-                intent = new Intent(Intent.ACTION_CALL, uri);
-                startActivity(intent);
+                if (PermissionUtils.validate(activity, 0, permissoes)) {
+                    Uri uri = Uri.parse("tel:" + telefone.getText());
+                    intent = new Intent(Intent.ACTION_CALL, uri);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getBaseContext(), "Permissão não concedida!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
     }
 
     private void mapearLocais(LatLng latLng) {

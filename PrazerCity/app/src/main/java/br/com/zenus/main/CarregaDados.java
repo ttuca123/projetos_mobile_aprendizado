@@ -95,57 +95,52 @@ public class CarregaDados extends AppCompatActivity {
     }
 
 
-
     public void popularDados() {
 
 
-        try {
-            Ion.with(getBaseContext()).load(Utilitarios.acessarServico(EnuServicos.LOCAIS))
-                    .as(JsonObject.class)
-                    .setCallback(new FutureCallback<JsonObject>() {
+        Ion.with(getBaseContext()).load(Utilitarios.acessarServico(EnuServicos.LOCAIS))
+                .as(JsonObject.class)
+                .setCallback(new FutureCallback<JsonObject>() {
 
 
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
 
 
-                            if (result != null) {
-                                Gson gson = new Gson();
+                        if (result != null) {
+                            Gson gson = new Gson();
 
-                                LocalMaster localMaster = null;
+                            LocalMaster localMaster = null;
 
-                                localMaster = gson.fromJson(result, LocalMaster.class);
+                            localMaster = gson.fromJson(result, LocalMaster.class);
 
-                                locais = localMaster.getLocais();
+                            locais = localMaster.getLocais();
 
-                                daoSession.deleteAll(Local.class);
+                            daoSession.deleteAll(Local.class);
 
-                                for (Local local : locais) {
+                            for (Local local : locais) {
 
-                                    if (local.getNome().contains("")) {
-                                        local.getNome().replace("\\u00c3\\u00a7", "ç");
-                                    }
-
-                                    daoSession.getLocalDao().insert(local);
-
-
+                                if (local.getNome().contains("")) {
+                                    local.getNome().replace("\\u00c3\\u00a7", "ç");
                                 }
-                                Toast.makeText(getBaseContext(), "Dados atualizados com sucesso!", Toast.LENGTH_LONG).show();
+
+                                daoSession.getLocalDao().insert(local);
 
 
-                            } else {
-                                Toast.makeText(getBaseContext(), "Erro ao atualizar dados!", Toast.LENGTH_LONG).show();
                             }
+                            Toast.makeText(getBaseContext(), "Dados atualizados com sucesso!", Toast.LENGTH_LONG).show();
 
+
+                        } else {
+                            Toast.makeText(getBaseContext(), "Erro ao atualizar dados!", Toast.LENGTH_LONG).show();
                         }
-                    });
-        } finally {
-            Intent it = new Intent(CarregaDados.this, MainActivity.class);
-            startActivity(it);
-            finish();
-            dialog.dismiss();
-        }
 
+                        Intent it = new Intent(CarregaDados.this, MainActivity.class);
+                        startActivity(it);
+                        finish();
+                        dialog.dismiss();
 
+                    }
+                });
     }
 }

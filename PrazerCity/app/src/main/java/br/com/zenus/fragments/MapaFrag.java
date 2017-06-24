@@ -42,7 +42,7 @@ public class MapaFrag extends Fragment {
     protected GoogleMap gMap;
     protected MapView gMapView;
     private CameraUpdate update;
-
+    private int ZOOM = 8;
     protected SupportMapFragment mapFragment;
     private Button btnExibirLocais;
 
@@ -132,7 +132,7 @@ public class MapaFrag extends Fragment {
             LatLng latLng = null;
             if (l != null) {
                 latLng = new LatLng(l.getLatitude(), l.getLongitude());
-                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, 12);
+                CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, ZOOM);
                 try {
                     MapsInitializer.initialize(getActivity());
                 } catch (Exception e) {
