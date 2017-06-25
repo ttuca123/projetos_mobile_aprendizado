@@ -40,12 +40,42 @@
         android:layout_alignParentBottom="true">
 
         <TextView
+            android:id="@+id/txtViewNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btnFone"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="23dp"
+            android:text="Nome"
+
+            android:textColor="#FFEBEE"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="230dp"
+            android:layout_weight="0.22" />
+
+        <TextView
+            android:id="@+id/txtAvaliacaoDetalhe"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/mapDetail"
+            android:layout_marginTop="25dp"
+            android:text="Avaliação Geral:"
+            android:textColor="#FFEBEE"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/txtAvaliacao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_weight="0.28"
-            android:text="Sua Avaliação: "
+            android:text="Avalie esse local: "
             android:textColor="#FFEBEE"
             android:textSize="14sp"
             android:textStyle="italic"
@@ -63,22 +93,6 @@
             android:textAlignment="center"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="451dp" />
-
-        <TextView
-            android:id="@+id/txtViewNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btnFone"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="23dp"
-            android:text="Nome"
-            android:textAlignment="center"
-            android:textColor="#FFEBEE"
-            android:textSize="24sp"
-            android:textStyle="bold|italic"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="230dp" />
 
         <TextView
             android:id="@+id/txtViewFone"
@@ -126,28 +140,15 @@
 
 
         <TextView
-            android:id="@+id/txtAvaliacaoDetalhe"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/mapDetail"
-            android:layout_marginTop="25dp"
-            android:text="Avaliação Geral:"
-            android:textColor="#FFEBEE"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/txtNota"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:fontFamily="serif"
             android:text="Nota"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="#FFEBEE"
-            android:textSize="30sp"
+            android:textSize="36sp"
             android:textStyle="italic" />
 
     </LinearLayout>

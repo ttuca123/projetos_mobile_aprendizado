@@ -84,13 +84,13 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
 
         if (params != null) {
             seqLocal = params.getDouble("seqLocal");
-            txtNome.setText(params.getString("nome"));
-            telefone.setText(params.getString("telefone"));
+            txtNome.setText("Nome: "+params.getString("nome"));
+            telefone.setText("Fone: "+params.getString("telefone"));
             latitude = params.getDouble("latitude");
             longitude = params.getDouble("longitude");
             avaliacao = params.getDouble("avaliacao");
             media = params.getDouble("media");
-            txtNota.setText(avaliacao.toString());
+            txtNota.setText("Nota: "+avaliacao.toString());
 
 
             mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapDetail);

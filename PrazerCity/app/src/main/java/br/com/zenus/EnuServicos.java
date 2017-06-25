@@ -8,7 +8,8 @@ public enum EnuServicos {
 
 
     LOCAIS(1, "buscar_locais.php"),
-    AVALIAR(2, "avaliar.php");
+    AVALIAR(2, "avaliar.php"),
+    ATUALIZACAO_LOCAL(3, "atualizacao_locais.php");
 
     /**
      * Opção que será armazenada.

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -22,12 +23,16 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import br.com.zenus.EnuServicos;
+import br.com.zenus.entidades.AtualizacaoLocal;
+import br.com.zenus.entidades.AtualizacaoLocalDao;
 import br.com.zenus.entidades.DaoSession;
 import br.com.zenus.entidades.Local;
+import br.com.zenus.entidades.LocalDao;
 import br.com.zenus.entidades.LocalMaster;
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.App;
 import br.com.zenus.util.Utilitarios;
+import br.com.zenus.vo.AtualizacaoLocalVO;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -86,7 +91,7 @@ public class CarregaDados extends AppCompatActivity {
         dialog = ProgressDialog.show(this, "Atualização dos Dados",
                 "Carregando Novos Locais", false, true);
 
-        popularDados();
+        verificarAtualizacao();
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
@@ -120,10 +125,6 @@ public class CarregaDados extends AppCompatActivity {
 
                             for (Local local : locais) {
 
-                                if (local.getNome().contains("")) {
-                                    local.getNome().replace("\\u00c3\\u00a7", "ç");
-                                }
-
                                 daoSession.getLocalDao().insert(local);
 
 
@@ -139,6 +140,70 @@ public class CarregaDados extends AppCompatActivity {
                         startActivity(it);
                         finish();
                         dialog.dismiss();
+
+                    }
+                });
+    }
+
+
+    public void verificarAtualizacao() {
+
+
+        Ion.with(getBaseContext()).load(Utilitarios.acessarServico(EnuServicos.ATUALIZACAO_LOCAL))
+                .as(JsonObject.class)
+                .setCallback(new FutureCallback<JsonObject>() {
+
+
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+
+
+                        if (result != null) {
+                            Gson gson = new Gson();
+
+                            AtualizacaoLocalVO atualizacaoLocalVO = null;
+
+                            try {
+                                atualizacaoLocalVO = gson.fromJson(result, AtualizacaoLocalVO.class);
+                            } catch (JsonSyntaxException e1) {
+                                e1.printStackTrace();
+                            }
+
+
+                            AtualizacaoLocal atualizacaoLocal = new AtualizacaoLocal();
+
+                            atualizacaoLocal.setSeqAtualizacao(atualizacaoLocalVO.getSeqAtualizacao());
+
+                            atualizacaoLocal.setCodigoHash(atualizacaoLocalVO.getCodigoHash());
+
+                            atualizacaoLocal.setDtAtualizacao(atualizacaoLocalVO.getDtAtualizacao());
+
+
+                            Long contadorAtualizacaoDados = daoSession.getAtualizacaoLocalDao().queryBuilder()
+                                    .where(AtualizacaoLocalDao.Properties.CodigoHash.
+                                            eq(atualizacaoLocal.getCodigoHash())).count();
+
+                            if ( contadorAtualizacaoDados==0L) {
+
+                                daoSession.getAtualizacaoLocalDao().insert(atualizacaoLocal);
+
+                                popularDados();
+
+                            }else{
+                                Intent it = new Intent(CarregaDados.this, MainActivity.class);
+                                startActivity(it);
+                                finish();
+                                dialog.dismiss();
+
+                            }
+
+                        } else {
+
+                            Intent it = new Intent(CarregaDados.this, MainActivity.class);
+                            startActivity(it);
+                            finish();
+                            dialog.dismiss();
+                        }
 
                     }
                 });
