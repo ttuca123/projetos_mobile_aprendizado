@@ -15,6 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -53,9 +56,14 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
     RatingBar ratingBar;
     private Double seqLocal;
 
+    private static final String ADMOB_UNIC = "ca-app-pub-5459227351754314/1383857388";
+
     protected GoogleMap gMap;
     protected SupportMapFragment mapFragment;
     protected GoogleApiClient mGoogleAPIClient;
+
+    private AdView mAdView;
+
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -150,6 +158,14 @@ public class DetalheLocal extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(ADMOB_UNIC);
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void mapearLocais(LatLng latLng) {

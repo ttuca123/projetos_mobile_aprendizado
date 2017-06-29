@@ -4,9 +4,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 import br.com.zenus.prazercity.R;
 
 public class SobreActivity extends AppCompatActivity {
+
 
 
     @Override
@@ -23,6 +28,9 @@ public class SobreActivity extends AppCompatActivity {
 
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+
+
 
     }
 }
