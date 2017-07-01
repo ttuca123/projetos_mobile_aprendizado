@@ -4,7 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context="br.com.zenus.main.SobreActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/prazer_city"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/linearLayout2" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,9 +26,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@color/common_signin_btn_default_background"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
-        android:weightSum="1"
+
         android:id="@+id/linearLayout2">
 
         <TextView
@@ -28,9 +42,9 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="46dp"
             android:layout_weight="0.32"
-            android:capitalize="words"
+
             android:text="@string/developBy"
-            android:textAlignment="viewStart"
+
             android:textAllCaps="false"
             android:textColor="@color/common_signin_btn_dark_text_default"
             android:textSize="18sp"
@@ -39,17 +53,7 @@
             tools:layout_editor_absoluteY="443dp" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout2"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/prazer_city" />
+
 
 
 

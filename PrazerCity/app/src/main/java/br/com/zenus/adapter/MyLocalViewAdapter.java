@@ -81,7 +81,7 @@ public class MyLocalViewAdapter extends RecyclerView.Adapter<MyLocalViewAdapter.
 
         final Long seqLocal = mDataset.get(position).getSeqLocal();
        final String nome = mDataset.get(position).getNome();
-        final Double avaliacao = mDataset.get(position).getAvaliacao();
+        final Float avaliacao = mDataset.get(position).getAvaliacao();
         final   String telefone = mDataset.get(position).getTelefone();
         final  Double latitude = mDataset.get(position).getLatitude();
         final  Double longitude = mDataset.get(position).getLongitude();

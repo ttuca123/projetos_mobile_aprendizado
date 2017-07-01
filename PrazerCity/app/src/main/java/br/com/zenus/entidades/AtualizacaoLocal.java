@@ -17,8 +17,6 @@ import org.greenrobot.greendao.annotation.Transient;
 @Entity(nameInDb = "atualizacao_local")
 public class AtualizacaoLocal {
 
-
-
     @Id(autoincrement = true)
     @Property(nameInDb = "seq_atualizacao")
     @SerializedName("seq_atualizacao")

@@ -6,6 +6,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Transient;
 
 import java.util.Collection;
 
@@ -40,15 +41,21 @@ public class Local {
 
     @Property(nameInDb = "avaliacao")
     @SerializedName("avaliacao")
-    private Double avaliacao;
+    private Float avaliacao;
 
     @Property(nameInDb = "descricao")
     @SerializedName("descricao")
     private String descricao;
 
-    @Generated(hash = 97002594)
+
+
+    @Generated(hash = 1337064102)
+    public Local() {
+    }
+
+    @Generated(hash = 1931048130)
     public Local(Long seqLocal, String nome, String telefone, Double latitude,
-            Double longitude, Double avaliacao, String descricao) {
+            Double longitude, Float avaliacao, String descricao) {
         this.seqLocal = seqLocal;
         this.nome = nome;
         this.telefone = telefone;
@@ -56,10 +63,6 @@ public class Local {
         this.longitude = longitude;
         this.avaliacao = avaliacao;
         this.descricao = descricao;
-    }
-
-    @Generated(hash = 1337064102)
-    public Local() {
     }
 
     public Long getSeqLocal() {
@@ -102,11 +105,11 @@ public class Local {
         this.longitude = longitude;
     }
 
-    public Double getAvaliacao() {
+    public Float getAvaliacao() {
         return this.avaliacao;
     }
 
-    public void setAvaliacao(Double avaliacao) {
+    public void setAvaliacao(Float avaliacao) {
         this.avaliacao = avaliacao;
     }
 

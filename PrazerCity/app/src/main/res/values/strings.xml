@@ -87,4 +87,14 @@
     <string name="title_activity_carrega_dados">Prazer City</string>
 
     <string name="dummy_content">Carregando Dados do Aplicativo</string>
+    <string name="title_activity_maps"> Pontos de Prazer</string>
+
+
+    <string name="msg_gps_title"> GPS está desativado</string>
+
+    <string name="msg_gps_desc"> Deseja ativar o gps?</string>
+
+    <string name="msg_net_title"> Dispositivo está sem conexão</string>
+
+    <string name="msg_net_desc"> Deseja ativar conexão com a Rede?</string>
 </resources>

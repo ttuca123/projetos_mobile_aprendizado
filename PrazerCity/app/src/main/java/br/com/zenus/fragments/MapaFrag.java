@@ -74,6 +74,7 @@ public class MapaFrag extends Fragment {
                 LatLng minhaLocalizacao = new LatLng(location.getLatitude(), location.getLongitude());
 
                 mapearLocais(location);
+
                 btnExibirLocais.setVisibility(View.GONE);
             } else {
 
@@ -232,6 +233,8 @@ public class MapaFrag extends Fragment {
             });
 
             alertDialog.show();
+
+
 
         }
     }

@@ -1,34 +1,28 @@
 package br.com.zenus.main;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import br.com.zenus.EnuServicos;
 import br.com.zenus.entidades.AtualizacaoLocal;
 import br.com.zenus.entidades.AtualizacaoLocalDao;
 import br.com.zenus.entidades.DaoSession;
 import br.com.zenus.entidades.Local;
-import br.com.zenus.entidades.LocalDao;
-import br.com.zenus.entidades.LocalMaster;
+import br.com.zenus.vo.LocalMasterVO;
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.App;
 import br.com.zenus.util.Utilitarios;
@@ -115,11 +109,11 @@ public class CarregaDados extends AppCompatActivity {
                         if (result != null) {
                             Gson gson = new Gson();
 
-                            LocalMaster localMaster = null;
+                            LocalMasterVO localMasterVO = null;
 
-                            localMaster = gson.fromJson(result, LocalMaster.class);
+                            localMasterVO = gson.fromJson(result, LocalMasterVO.class);
 
-                            locais = localMaster.getLocais();
+                            locais = localMasterVO.getLocais();
 
                             daoSession.deleteAll(Local.class);
 
