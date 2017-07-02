@@ -2,7 +2,7 @@ package br.com.zenus.fragments;
 
 
 import android.annotation.TargetApi;
-import android.icu.text.DecimalFormat;
+import java.text.DecimalFormat;
 import android.location.Location;
 import android.os.Build;
 import android.support.annotation.RequiresApi;

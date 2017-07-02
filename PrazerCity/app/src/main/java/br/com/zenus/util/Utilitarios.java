@@ -26,6 +26,8 @@ public class Utilitarios {
 
     public static final String ADMOB_UNIC = "ca-app-pub-5459227351754314/1383857388";
 
+    public static final String ADMOB_UNIC2 = "ca-app-pub-5459227351754314/6875000981";
+
 
     public static boolean verificarConexao(Context context) {
         boolean conectado;

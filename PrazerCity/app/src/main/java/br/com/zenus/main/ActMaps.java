@@ -5,7 +5,7 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.icu.text.DecimalFormat;
+
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +23,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -41,6 +46,7 @@ import com.google.gson.JsonSyntaxException;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +67,10 @@ public class ActMaps extends AppCompatActivity
         implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
+
+    private InterstitialAd mInterstitialAd;
+
+    private AdView mAdView;
     protected GoogleMap mMap;
     private DaoSession daoSession;
     private int ZOOM = 13;
@@ -102,7 +112,12 @@ public class ActMaps extends AppCompatActivity
 
         verificarAtualizacao();
 
+        inicializarPropaganda();
+
     }
+
+
+
 
     @Override
     protected void onResume() {
@@ -113,6 +128,15 @@ public class ActMaps extends AppCompatActivity
 
     }
 
+
+    private void inicializarPropaganda(){
+
+
+
+        mInterstitialAd = new InterstitialAd(ActMaps.this);
+        mInterstitialAd.setAdUnitId(Utilitarios.ADMOB_UNIC2);
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+    }
 
     private Location getLastKnownLocation() {
         String location_context = LOCATION_SERVICE;
@@ -478,6 +502,11 @@ public class ActMaps extends AppCompatActivity
             mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
+
+                    mInterstitialAd.show();
+
+
+
                     Intent it = new Intent(ActMaps.this, DetalheLocal.class);
                     Bundle bundle = new Bundle();
 
