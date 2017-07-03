@@ -505,11 +505,8 @@ public class ActMaps extends AppCompatActivity
 
                     mInterstitialAd.show();
 
-
-
                     Intent it = new Intent(ActMaps.this, DetalheLocal.class);
                     Bundle bundle = new Bundle();
-
 
                     bundle.putString("nome", marker.getTitle());
                     it.putExtras(bundle);
