@@ -22,6 +22,8 @@ import br.com.zenus.entidades.AtualizacaoLocal;
 import br.com.zenus.entidades.AtualizacaoLocalDao;
 import br.com.zenus.entidades.DaoSession;
 import br.com.zenus.entidades.Local;
+import br.com.zenus.presenter.ActMainPresenter;
+
 import br.com.zenus.vo.LocalMasterVO;
 import br.com.zenus.prazercity.R;
 import br.com.zenus.util.App;
@@ -130,7 +132,7 @@ public class CarregaDados extends AppCompatActivity {
                             Toast.makeText(getBaseContext(), "Erro ao atualizar dados!", Toast.LENGTH_LONG).show();
                         }
 
-                        Intent it = new Intent(CarregaDados.this, MainActivity.class);
+                        Intent it = new Intent(CarregaDados.this, ActMainPresenter.class);
                         startActivity(it);
                         finish();
                         dialog.dismiss();
@@ -184,7 +186,7 @@ public class CarregaDados extends AppCompatActivity {
                                 popularDados();
 
                             }else{
-                                Intent it = new Intent(CarregaDados.this, MainActivity.class);
+                                Intent it = new Intent(CarregaDados.this, ActMainPresenter.class);
                                 startActivity(it);
                                 finish();
                                 dialog.dismiss();
@@ -193,7 +195,7 @@ public class CarregaDados extends AppCompatActivity {
 
                         } else {
 
-                            Intent it = new Intent(CarregaDados.this, MainActivity.class);
+                            Intent it = new Intent(CarregaDados.this, ActMainPresenter.class);
                             startActivity(it);
                             finish();
                             dialog.dismiss();

@@ -117,21 +117,16 @@ public class ActMaps extends AppCompatActivity
     }
 
 
-
-
     @Override
     protected void onResume() {
         super.onResume();
 
-        auxMapearLocais();
-
+        auxMapearLocais(true);
 
     }
 
 
-    private void inicializarPropaganda(){
-
-
+    private void inicializarPropaganda() {
 
         mInterstitialAd = new InterstitialAd(ActMaps.this);
         mInterstitialAd.setAdUnitId(Utilitarios.ADMOB_UNIC2);
@@ -355,7 +350,7 @@ public class ActMaps extends AppCompatActivity
                                 daoSession.getLocalDao().insert(local);
                             }
 
-                            auxMapearLocais();
+                            auxMapearLocais(false);
 
                             mapearLocais();
 
@@ -520,82 +515,83 @@ public class ActMaps extends AppCompatActivity
 
     public void verificarAtualizacao() {
 
-            progressDialog = ProgressDialog.show(this, "Verificando Novos Dados",
-                    "Carregando", false, true);
+        progressDialog = ProgressDialog.show(this, "Verificando Novos Dados",
+                "Carregando", false, true);
 
-            Ion.with(getBaseContext()).load(Utilitarios.acessarServico(EnuServicos.ATUALIZACAO_LOCAL))
-                    .as(JsonObject.class)
-                    .setCallback(new FutureCallback<JsonObject>() {
-
-
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
+        Ion.with(getBaseContext()).load(Utilitarios.acessarServico(EnuServicos.ATUALIZACAO_LOCAL))
+                .as(JsonObject.class)
+                .setCallback(new FutureCallback<JsonObject>() {
 
 
-                            if (result != null) {
-                                Gson gson = new Gson();
-
-                                AtualizacaoLocalVO atualizacaoLocalVO = null;
-
-                                try {
-                                    atualizacaoLocalVO = gson.fromJson(result, AtualizacaoLocalVO.class);
-                                } catch (JsonSyntaxException e1) {
-                                    e1.printStackTrace();
-                                }
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
 
 
-                                AtualizacaoLocal atualizacaoLocal = new AtualizacaoLocal();
+                        if (result != null) {
+                            Gson gson = new Gson();
 
-                                atualizacaoLocal.setSeqAtualizacao(atualizacaoLocalVO.getSeqAtualizacao());
+                            AtualizacaoLocalVO atualizacaoLocalVO = null;
 
-                                atualizacaoLocal.setCodigoHash(atualizacaoLocalVO.getCodigoHash());
-
-                                atualizacaoLocal.setDtAtualizacao(atualizacaoLocalVO.getDtAtualizacao());
-
-
-                                Long contadorAtualizacaoDados = daoSession.getAtualizacaoLocalDao().queryBuilder()
-                                        .where(AtualizacaoLocalDao.Properties.CodigoHash.
-                                                eq(atualizacaoLocal.getCodigoHash())).count();
-
-                                progressDialog.dismiss();
-                                progressDialog=null;
-
-                                if (contadorAtualizacaoDados == 0L) {
-
-                                    daoSession.getAtualizacaoLocalDao().insert(atualizacaoLocal);
-
-                                    carregarDados();
-
-                                }
-
-                            } else {
-
-
-                                progressDialog.dismiss();
+                            try {
+                                atualizacaoLocalVO = gson.fromJson(result, AtualizacaoLocalVO.class);
+                            } catch (JsonSyntaxException e1) {
+                                e1.printStackTrace();
                             }
 
+
+                            AtualizacaoLocal atualizacaoLocal = new AtualizacaoLocal();
+
+                            atualizacaoLocal.setSeqAtualizacao(atualizacaoLocalVO.getSeqAtualizacao());
+
+                            atualizacaoLocal.setCodigoHash(atualizacaoLocalVO.getCodigoHash());
+
+                            atualizacaoLocal.setDtAtualizacao(atualizacaoLocalVO.getDtAtualizacao());
+
+
+                            Long contadorAtualizacaoDados = daoSession.getAtualizacaoLocalDao().queryBuilder()
+                                    .where(AtualizacaoLocalDao.Properties.CodigoHash.
+                                            eq(atualizacaoLocal.getCodigoHash())).count();
+
+                            progressDialog.dismiss();
+                            progressDialog = null;
+
+                            if (contadorAtualizacaoDados == 0L) {
+
+                                daoSession.getAtualizacaoLocalDao().insert(atualizacaoLocal);
+
+                                carregarDados();
+
+                            }
+
+                        } else {
+
+
+                            progressDialog.dismiss();
                         }
-                    });
+
+                    }
+                });
 
     }
 
 
-    private void auxMapearLocais() {
+    private void auxMapearLocais(boolean checarGPS) {
 
-        if (!verificarGPSAtivo(service)) {
-
-
-            if (myLocation == null) {
-                myLocation = getLastKnownLocation();
-            }
+        if (checarGPS) {
+            verificarGPSAtivo(service);
+        }
 
 
-            if (myLocation != null) {
+        if (myLocation == null) {
+            myLocation = getLastKnownLocation();
+        }
 
-                atualizarLocalizacao(myLocation);
 
-                mapearLocais();
-            }
+        if (myLocation != null) {
+
+            atualizarLocalizacao(myLocation);
+
+            mapearLocais();
         }
 
     }

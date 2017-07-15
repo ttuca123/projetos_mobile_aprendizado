@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
 
-    tools:context="br.com.zenus.main.MainActivity">
+    tools:context="br.com.zenus.view.ActMain">
 
     <item
         android:id="@+id/action_atualize"

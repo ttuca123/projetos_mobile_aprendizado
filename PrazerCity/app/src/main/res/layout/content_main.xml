@@ -10,7 +10,7 @@
     android:paddingRight="2dp"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="br.com.zenus.main.MainActivity"
+    tools:context="br.com.zenus.view.ActMain"
     tools:showIn="@layout/main_activity">
 
     <TabHost
