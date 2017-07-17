@@ -1,6 +1,7 @@
 package br.com.android.chat;
 
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 
 
@@ -28,6 +29,8 @@ public class ChatActivity extends AppCompatActivity implements ContatosFragment.
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         PageAdapter pagerAdapter = new PageAdapter(getSupportFragmentManager(), ChatActivity.this);
         viewPager.setAdapter(pagerAdapter);
+
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 

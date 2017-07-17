@@ -1,9 +1,13 @@
 package br.com.android.vendas;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnNovaVenda;
     Button btnListarVenda;
     Button btnReplicacao;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +86,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
                 Intent serviceIntent = new Intent(getBaseContext(),ExportarVendasService.class);
 
                 startService(serviceIntent);
             }
         });
     }
+
+
 }

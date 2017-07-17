@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         loginSenha = (EditText) findViewById(R.id.txtLoginSenha);
         Button btnLogar = (Button) findViewById(R.id.btnLogar);
 
-        FloatingActionButton btnAdd = (FloatingActionButton) findViewById(R.id.btnAdd);
+        FloatingActionButton btnAdd = (FloatingActionButton) findViewById(R.id.btnAddCadastro);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -91,7 +91,7 @@ public class CadastroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                 String URL = "http://192.168.25.9/chat/insert_user.php";
+                 String URL = "http://192.168.25.9/projetos_web_aprendizado/chat/insert_user.php";
                  String photoFile = null;
 
                 try {

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Gravador</string>
+    <string name="start">Play</string>
+    <string name="stop_record">Parar de Gravar</string>
+    <string name="record">Gravar</string>
+    <string name="stop_play">Parar</string>
+
+</resources>

@@ -3,6 +3,7 @@ package br.com.android.vendas;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +11,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,6 +32,9 @@ import java.net.URL;
 
 public class ExportarVendasService extends Service implements  Runnable {
 
+
+    ProgressDialog progressDialog;
+    int totalDB;
 
     public void onCreate(){
         new Thread(ExportarVendasService.this).start();
@@ -46,6 +53,23 @@ public class ExportarVendasService extends Service implements  Runnable {
         return null;
     }
 
+    public Handler handler =new Handler(){
+        public void handleMessage(Message msg){
+            if(msg.what==0) {
+                progressDialog.setProgress(progressDialog.getProgress() + 1);
+            }else if(msg.what==1){
+                progressDialog.dismiss();
+                Toast.makeText(ExportarVendasService.this, "Sucesso na replicação", Toast.LENGTH_LONG);
+            }else if(msg.what==2){
+                progressDialog.dismiss();
+                Toast.makeText(ExportarVendasService.this, "Erro na replicação", Toast.LENGTH_LONG);
+            }
+
+
+        }
+
+    };
+
     @Override
     public void run() {
 
@@ -54,11 +78,25 @@ public class ExportarVendasService extends Service implements  Runnable {
         Cursor cursor  = db.rawQuery("SELECT * FROM vendas", null);
         int totalReplicado = 0;
 
+        totalDB = cursor.getCount();
+
+        progressDialog = new ProgressDialog(ExportarVendasService.this);
+
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
+        progressDialog.setCancelable(false);
+
+        progressDialog.setTitle("Replicando dados");
+
+        progressDialog.setMax(cursor.getCount());
+
+        progressDialog.show();
+
 
         while(cursor.moveToNext()){
 
             StringBuilder str = new StringBuilder();
-            str.append("http://192.168.25.9:8090/vendas/inserir.php?produto=");
+            str.append("http://192.168.25.9/projetos_web_aprendizado/vendas/inserir.php?produto=");
             str.append(cursor.getInt(cursor.getColumnIndex("produto")));
             str.append("&preco=");
             str.append(cursor.getDouble(cursor.getColumnIndex("preco")));
@@ -76,10 +114,10 @@ public class ExportarVendasService extends Service implements  Runnable {
 
                 String linhaRetorno = line.readLine();
 
-
-
                     db.delete("vendas", "_id=?", new String[]{String.valueOf(cursor.getInt(0))});
+                    handler.sendEmptyMessage(0);
                     totalReplicado++;
+
 
                 Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -100,8 +138,16 @@ public class ExportarVendasService extends Service implements  Runnable {
             } catch (Exception e) {
                 Log.d("Erro", e.toString());
             }
+
+            if(totalReplicado==totalDB){
+
+                handler.sendEmptyMessage(1);
+            }
         }
 
         db.close();
     }
+
+
+
 }

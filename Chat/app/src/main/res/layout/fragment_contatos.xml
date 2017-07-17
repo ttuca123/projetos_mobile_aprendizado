@@ -11,8 +11,13 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Contatos 2"
+        android:text="Contatos"
         android:textColor="@android:color/black"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnAdd"
@@ -22,5 +27,7 @@
         android:layout_marginBottom="70dp"
         android:layout_marginRight="10dp"
         android:src="@android:drawable/ic_input_add" />
+
+
 
 </FrameLayout>
